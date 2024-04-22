@@ -8,36 +8,39 @@ import DropdownMenu from "./DropdownMenu";
 
 const Navbar = () => {
 
+  //DEV DROPDOWN MENU
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const [loggedIn, setLoggedIn] = useState(false);
-
   const handleMouseEnter = () => {
     setDropdownVisible(true);
   };
-
   const handleMouseLeave = () => {
     setDropdownVisible(false);
   };
 
 
+//LOGIN STATE
+const [loggedIn, setLoggedIn] = useState(false);
 
 if(localStorage.getItem('auth') !== null && !loggedIn){
   setLoggedIn(true);
 }
 
-  let session;
-  if(setLoggedIn){;
-    session = <div>
-      {localStorage.getItem('auth')}
-      <br></br>
-      <button onClick={() => {localStorage.removeItem('auth'); setLoggedIn(false)}}>Log out</button>
-    </div>
-  } else{
-    session = 
-    <Link to="/login">
-      <button className="login-button">Log in</button>
-    </Link>;
-  }
+let session;
+if(loggedIn){
+  session = 
+            <div>
+              <button onClick={() => {
+                localStorage.removeItem('auth'); 
+                localStorage.removeItem('username');
+                setLoggedIn(false)}
+              }>Log out</button>
+            </div>
+} else{
+  session = 
+              <Link to="/login">
+                <button className="login-button">Log in</button>
+              </Link>;
+}
 
   return (
     <div className="navbar-outside-container">
@@ -57,10 +60,6 @@ if(localStorage.getItem('auth') !== null && !loggedIn){
           <button>Dropdown Menu</button>
           {/* <DropdownMenu /> */}
           {isDropdownVisible && <DropdownMenu />}
-        </div>
-
-        <div className="check-stored-auth">
-          {localStorage.getItem('auth')}
         </div>
 
       <div className="log-in">

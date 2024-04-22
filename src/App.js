@@ -41,7 +41,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Navbar></Navbar>
+      {/* <Navbar></Navbar> */}
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/resources/:id" element={<SingleResourcePage />} />

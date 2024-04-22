@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import "./ResourcesExplorationPage.css";
-
+import Navbar from "components/Navbar";
 const ResourceExplorationPage = () => {
     const [images, setImages] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -76,11 +76,14 @@ useEffect(() => {
 
 
 return (
-    <div className="App">
+    <div>
+        <Navbar />
+        <div className="App">
             <div className="gridContainer" id="imageGrid">
                 {listImages}
             </div>
         </div>
+    </div>
     );
 };
 
