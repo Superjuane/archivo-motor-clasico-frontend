@@ -1,0 +1,43 @@
+button {
+    background: #000;
+    box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  ul {
+    list-style: none;
+    padding: unset;
+    margin: unset;
+  }
+  
+  li {
+    padding: 14px;
+    transition: all linear 0.3s;
+  }
+
+ .dropdown-menu-item-list {
+    color: blue;
+    text-decoration: none;
+}  
+  
+  li:hover {
+    background: gray;
+    cursor: pointer;
+    color: #fff;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    background: #fff;
+    box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);
+    transition: all linear 0.3s;
+    
+  }
+
+  a{
+    text-decoration: none;
+    color: #000;
+  }

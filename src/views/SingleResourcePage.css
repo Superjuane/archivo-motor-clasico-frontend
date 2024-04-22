@@ -1,0 +1,67 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #3F4244;
+}
+
+nav {
+  background-color: #00acee;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  text-align: center;
+}
+
+navBar-body{
+  padding-left: 2%;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+}
+
+nav button {
+  background-color: #1da1f2;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background-color: #1589c7;
+}
+
+.tweet-container {
+  max-width: 90%;
+  width: fit-content;
+  min-width: 10%;
+  margin: 20px auto;
+  background-color: #37393A;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px; /* Adds some spacing around the container */
+}
+
+.tweet-image {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.comment-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.comment-list li {
+  border-bottom: 1px solid #ddd;
+  padding: 10px 0;
+}
