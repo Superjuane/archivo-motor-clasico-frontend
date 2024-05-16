@@ -1,19 +1,22 @@
 import { useEffect } from 'react';
-
-import './App.css';
-import Home from './views/Home';
-import SingleResourcePage from 'views/SingleResourcePage';
-import ResourcesExplorationPage from './views/ResourcesExplorationPage';
-import UploadImage from './views/UploadImage';
-import SearchPage from './views/SearchPage';
-import Login from './views/Login';
-import Navbar from 'components/Navbar';
-
 import {
   BrowserRouter,
   Routes,
   Route
 } from "react-router-dom";
+
+import './App.css';
+import Home from './views/Home';
+import SingleResourcePage from 'views/SingleResourcePage';
+import ResourceEditPage from 'views/ResourceEditPage';
+import ResourcesExplorationPage from './views/ResourcesExplorationPage';
+import UploadImage from './views/UploadImage';
+import SearchPage from './views/SearchPage';
+import Login from './views/Login';
+import ForgotPassword from 'views/ForgotPassword';
+import ResetPassword from 'views/ResetPassword';
+import Navbar from 'components/Navbar';
+
 
 function App() {
 
@@ -41,14 +44,17 @@ function App() {
 
   return (
     <BrowserRouter>
-      {/* <Navbar></Navbar> */}
+      <Navbar></Navbar>
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/resources/:id" element={<SingleResourcePage />} />
+      <Route path="/edit/:id" element={<ResourceEditPage />} />
       <Route path="/resources" element={<ResourcesExplorationPage />} />
       <Route path="/uploadimage" element={<UploadImage/>}/>
       <Route path="/search" element={<SearchPage/>}/>
       <Route path="/login" element={<Login />} />
+      <Route path="/forgotpassword" element={<ForgotPassword />} />
+      <Route path="/resetpassword" element={<ResetPassword />} />
       <Route path="*" element={<Home />} />
       {/* <Route path="/chapter/:chapterNumber" element={<Chapter />} /> */}
       {/* <Route path="/*" element={<NotFound />} /> */}

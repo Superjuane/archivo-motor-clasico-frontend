@@ -28,7 +28,7 @@ if(localStorage.getItem('auth') !== null && !loggedIn){
 let session;
 if(loggedIn){
   session = 
-            <div>
+            <div className="Navbar-loged-in-button">
               <button onClick={() => {
                 localStorage.removeItem('auth'); 
                 localStorage.removeItem('username');
@@ -38,31 +38,31 @@ if(loggedIn){
 } else{
   session = 
               <Link to="/login">
-                <button className="login-button">Log in</button>
+                <button className="Navbar-login-button">Log in</button>
               </Link>;
 }
 
   return (
-    <div className="navbar-outside-container">
+    <div className="Navbar-outside-container">
 
-      <div className="logo">
-        <Link to="/">
-          <img src={logo} className="logo-image" alt="logo" />
+      <div className="Navbar-logo">
+        <Link to="/" style={{"padding-top":"50px"}}>
+          <img src={logo} className="Navbar-logo-image" alt="logo" />
           {/* LOGO */}
         </Link>
       </div>
 
       <div
-          className="menu"
+          className="Navbar-menu"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <button>Dropdown Menu</button>
+          <button Navbar-dropdown-menu>Dropdown Menu</button>
           {/* <DropdownMenu /> */}
           {isDropdownVisible && <DropdownMenu />}
         </div>
 
-      <div className="log-in">
+      <div className="Navbar-log-in-external-div">
         {session}
       </div>
 

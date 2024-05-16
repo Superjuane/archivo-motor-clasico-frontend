@@ -15,10 +15,18 @@ const ResourceExplorationPage = () => {
         }
 
 
-        return <a href={"/resources/"+image.id}>
-                    <img style={style} src={image.url} alt={image.alt} />
-                </a>
-        }
+        return (
+            <div className="ResourceExploration-ImageGridItem-div-outside" style={{"border-style":"solid", "border-color":"red"}}>
+                <div className="ResourceExploration-ImageGridItem-div-inside">
+                    <a href={"/resources/"+image.id} >
+                        <div>
+                            <img style={style} src={image.url} alt={image.alt} />
+                            <p>{image.title}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>)
+    }
 
     function getSpanEstimate(size) {
         if (size > 250) {
@@ -71,13 +79,13 @@ useEffect(() => {
     }
 
     const listImages = images.map((img) => 
-        <ImageGridItem image={{"id":img.id,"url":'data:image/jpeg;base64,'+img.image, "alt":"fetched"}} />
+        <ImageGridItem image={{"id":img.id,"url":'data:image/jpeg;base64,'+img.image, "alt":img.title, "title":img.title}} />
     );
 
 
 return (
     <div>
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="App">
             <div className="gridContainer" id="imageGrid">
                 {listImages}

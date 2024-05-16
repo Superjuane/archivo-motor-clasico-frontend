@@ -6,15 +6,16 @@
 //                          (podria tener mejor un ResourceComponent que decida segun el tipo si es PDFComponent, ImageComponent...)
 
 import React, { useState, useEffect } from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 
 import "./SingleResourcePage.css";
 import ImageComponent from "components/ImageComponent";
+import Navbar from "components/Navbar";
 
 const SingleResourcePage = () => {
     let { id } = useParams();
-
     const [text, setText] = useState([]);
+
     useEffect(() => {
         fetch('http://localhost:8090/sayhello') 
             .then((response) => response.json())
@@ -28,20 +29,21 @@ const SingleResourcePage = () => {
         });
     },[]);
 
-    
+
 
 return (
     <div className="App">
+        {/* <Navbar></Navbar> */}
             <div className="tweet-container">
-                    <ImageComponent id={id} ></ImageComponent>
-                <div className="API-TEST-TEXT">
+                <ImageComponent id={id} ></ImageComponent>
+                {/* <div className="API-TEST-TEXT">
                     {text}
                 </div>
                 <ul className="comment-list">
                     <li>Comment 1</li>
                     <li>Comment 2</li>
                     <li>Comment 3</li>
-                </ul>
+                </ul> */}
             </div>
         </div>
     );

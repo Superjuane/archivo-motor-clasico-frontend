@@ -1,0 +1,38 @@
+.DynamicProperty-external {
+    padding: 10px;
+}
+
+.DynamicProperty-internal {
+    margin-bottom: 10px;
+}
+
+.DynamicProperty-outside-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 16px; /* Increased font size */
+}
+
+.DynamicProperty-complex-label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px; /* Decreased font size */
+}
+
+.DynamicProperty-input,
+.DynamicProperty-complex-input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 3px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.DynamicProperty-complex-div {
+    margin-left: 20px;
+    border: 1px solid #ccc; /* Adding border */
+    border-radius: 5px; /* Rounded corners */
+    padding: 10px; /* Padding for space around sub-properties */
+}

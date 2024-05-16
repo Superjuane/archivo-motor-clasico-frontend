@@ -1,62 +1,51 @@
-.navbar-outside-container {
+.Navbar-outside-container {
+    background-color: #434647; /* Background color for the navbar */
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px;
-    background-color: #ba8b55; /* Change this to your preferred background color */
-    color: white;
+}
+
+.Navbar-logo {
+}
+
+.Navbar-logo-image {
     height: 50px;
-}
-
-.logo {
-    /* flex: 1; The logo will take up available space */
-    /* width: auto;
-    height: 40vmin;
-     */
     width: auto;
-    height: 115%;
-    
 }
 
-.logo-image {
-    height: 100%;
-    width: auto;
-    pointer-events: none;
-  }
+.Navbar-menu {
 
-.logo a {
-    text-decoration: none;
-    color: white;
-    /* width: auto;
-    height: 100%; */
 }
 
-.searchBar {
-    flex: 5; /* The search bar will take up more space */
-    margin: 0 10px;
-}
-
-.searchBar input {
-    width: 100%;
-    padding: 8px;
+.Navbar-menu button {
+    background-color: #AA3F2C;
     border: none;
-    border-radius: 5px;
-}
-
-.log-in {
-    flex: 0.7; /* The login button will take up available space */
-    text-align: right;
-}
-
-.login-button {
-    background-color: #1da1f2; /* Change this to your preferred button color */
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 20px;
     cursor: pointer;
+    color: #fff;
+    font-size: 16px;
 }
 
-.login-button:hover {
-    background-color: #1589c7;
+.Navbar-menu button:hover {
+    text-decoration: underline;
+}
+
+.Navbar-loged-in-button button,
+.Navbar-login-button {
+    background-color: #AA3F2C;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.Navbar-loged-in-button button:hover,
+.Navbar-login-button:hover {
+    background-color: #0056b3;
+}
+
+.Navbar-log-in-external-div {
+
 }

@@ -1,4 +1,7 @@
 import {React, useState, useEffect } from 'react';
+import {Link} from 'react-router-dom';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import { fas, far, fal } from '@awesome.me/kit-KIT_CODE/icons'
 import './ImageComponent.css';
 
 
@@ -7,6 +10,7 @@ const ImageComponent = (id) => {
     const [image, setImage] = useState(null);
     const [title, setTitle] = useState(null);
     const [description, setDescription] = useState(null);
+    const [creator, setCreator] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -37,6 +41,7 @@ const ImageComponent = (id) => {
                         setImage(data.imageUrl);
                     setTitle(data.title);
                     setDescription(data.description);
+                    setCreator(data.creator);
             }).catch((err)=>{
                 console.log(err.message);
                 setError("Error!")}).finally(()=>{setLoading(false)});
@@ -50,16 +55,34 @@ const ImageComponent = (id) => {
         return <p>Error!: {error}</p>;
     }
 
+    let edit = null;
+    if(creator === localStorage.getItem('username')){
+        console.log("Creator: "+creator);
+        edit = (<div className='ImageComponent-edit-div'>
+            <a className='ImageComponent-edit-a' href={"/edit/"+id.id} >
+            <button className='ImageComponent-edit-button' style={{"font-size":"24px"}}>
+                Editar 
+            </button>
+            </a>
+        </div>)
+    }
+
+
     return (
-        <div>
-            <h1>{title}</h1>
-            <p>{description}</p>
-            {/* <a href={image} /*onclick = {openNewWindow()}>
-                <img style={myStyles} src={image} alt="Fetched " />
-             </a> */}
-            <div className='image-container'>
-                <img className='image' src={image} alt="Fetched " />
-            </div> 
+        <div className='ImageComponent-div'>
+            {edit}
+            <div className='ImageComponent-image-background'>
+                <div className='ImageComponent-image-container'>
+                        <img className='ImageComponent-image' src={image} alt="Fetched " />
+                </div>
+            </div>
+            <div className='ImageComponent-text-container-outside'>
+                <div className='ImageComponent-text-container-inside'>
+                    <h1 className='ImageComponent-h1'>{title}</h1>
+                    <p className='ImageComponent-p'>{description}</p>
+                    <p className='ImageComponent-p'>Creator: {creator}</p>
+                </div>
+            </div>    
         </div>
     );
 };

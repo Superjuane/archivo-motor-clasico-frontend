@@ -1,14 +1,103 @@
+.ImageComponent-div {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
 
-.image-container {
-    width: 60%; 
-    margin: 0 auto; 
-    padding: 10px;
-  }
+.ImageComponent-image-background{
+    background-color: black;
+    padding-top: 0.8%;
+    padding-bottom: 0.8%;
+}
+.ImageComponent-image-container {
+    display: flex;
+    justify-content: center;
+    max-width: 50%;
+    margin: 0 auto;
+    background-color: black;
+}
 
-.image{
-    height: 100%;
-    width: 100%;
-  }
+.ImageComponent-image {
+    max-width: 100%;
+    height: auto;
+}
+
+.ImageComponent-h1 {
+  text-align: justify;
+}
+
+.ImageComponent-p {
+    margin-top: 10px; /* Adjust as needed */
+    margin-bottom: 20px; /* Adjust as needed */
+    text-align: justify;
+
+}
+
+.ImageComponent-edit-div {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 0.8%;
+}
+
+.ImageComponent-edit-a {
+    text-decoration: none;
+}
+
+.ImageComponent-edit-button {
+  align-self: center;
+  background-color: #949597;
+  background-image: none;
+  background-position: 0 90%;
+  background-repeat: repeat no-repeat;
+  background-size: 4px 3px;
+  border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+  border-style: solid;
+  border-width: 2px;
+  box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+  box-sizing: border-box;
+  color: #41403e;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Neucha, sans-serif;
+  font-size: 1rem;
+  line-height: 23px;
+  outline: none;
+  padding: .75rem;
+  text-decoration: none;
+  transition: all 235ms ease-in-out;
+  border-bottom-left-radius: 15px 255px;
+  border-bottom-right-radius: 225px 15px;
+  border-top-left-radius: 255px 15px;
+  border-top-right-radius: 15px 225px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.ImageComponent-edit-button:hover {
+  background-color: #AA3F2C;
+  box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
+  transform: translate3d(0, 2px, 0);
+}
+
+.ImageComponent-edit-button:focus {
+  box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
+}
+
+.ImageComponent-text-container-outside {
+  padding-left: 8%;
+  padding-right: 2%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
 
 
+.ImageComponent-text-container-inside {
+  /* text-align: left; 
+  margin-top: 20px;  */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 
+}

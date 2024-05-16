@@ -76,7 +76,7 @@ if(problem !== ''){
 
   return (
     <div>
-      <NavBar />
+      {/* <NavBar /> */}
       <div className={'mainContainer'}>
         <div className={'titleContainer'}>
           <div>Login</div>
@@ -107,7 +107,7 @@ if(problem !== ''){
 
         <br></br>
           <div className={'inputContainer'}>
-              <input className={'inputButton'} type="button" onClick={test} value={'Test'} />
+              <input className={'inputButton'} type="button" onClick={()=>navigate('/forgotpassword')} value={'Forgot  password?'} />
           </div>
 
       </div>

@@ -2,7 +2,6 @@
 //navigate with state? : https://reach.tech/router/api/navigate
 
 import React, { useState } from "react";
-import FileBase64 from 'react-file-base64';
 import { useNavigate  } from "react-router-dom";
 import "./UploadImage.css";
 
@@ -13,25 +12,16 @@ const [selectedImage, setSelectedImage] = useState(null);
 const [files, setFiles] = useState([]);
 const [title, setTitle] = useState(null);
 const [description, setDescription] = useState(null);
-const [user, setUser] = useState(null);
 const [date, setDate] = useState(null);
 const [competition, setCompetition] = useState(null);
 
-const [result, setResult] = useState(null);
 const [missingTitle, setMissingTitle] = useState(null);
-const [missingCreator, setMissingCreator] = useState(null);
 const [missingImage, setMissingImage] = useState(null);
 
 function sendToBackend(){
-    // console.log(JSON.stringify({ 
-    //             title: title,
-    //             image: files.image.split(',')[1],
-    //             description: description,
-    //             creator: user
-    
-    //         }));
+
     const requestOptions = {
-        method: 'POST',
+        method: 'post',
         headers: { 
             'Content-Type': 'application/json',
             'Allow-Control-Allow-Origin': '*',
@@ -39,17 +29,23 @@ function sendToBackend(){
         },
         body: JSON.stringify({ 
             title: title,
-            image: files.image,
-            description: description,
-            creator: user,
-            date: date,
-            competition: competition
-
-        })
+            description: description? description : null,
+            date: date? date: null,
+            competition: competition? competition : null,
+            image: files.image})
     };
+
+    console.log("Submitting: "  + JSON.stringify({ 
+        title: title,
+        description: description,
+        date: date? date: null,
+        competition: competition,
+        image: files.image})
+    )
     fetch('http://localhost:8090/resources', requestOptions)
         .then(response => {
             let data = response.json();
+            console.log("Data: "+data)
             if(!response.ok) throw {code: response.status, data: data};
             return data;
         })
@@ -60,9 +56,10 @@ function sendToBackend(){
         .catch((error) => {
             if(error.code === 400){
                 console.log("Bad Request")
+                console.log(error.data)
                 error.data.then((data) => {
+                    console.log(data)
                     if(data.parameters.includes("title")) setMissingTitle(true);
-                    if(data.parameters.includes("creator")) setMissingCreator(true);
                     if(data.parameters.includes("image")) setMissingImage(true);
                 })
             }
@@ -73,7 +70,6 @@ function sendToBackend(){
                 })
             }
             console.error('Error:', error);
-
         });
 
 }
@@ -93,21 +89,23 @@ function getBase64(file) {
 
 let titleErrorPlaceholder = missingTitle ? "missing title !!" : "Title";
 let imageErrorPlaceholder = missingImage ? <div style={{"color":"red"}}> IMAGE IS MISSING ! </div> : null;
-let creatorErrorPlaceholder = missingCreator ? "missing creator !!" : "Creator";
 
 return (
-    <div>
-        <h1>Upload and Display Image usign React Hook's</h1>
+    <div className="UploadImage-div">
+        <h1 className="UploadImage-h1">Upload new image</h1>
 
         {selectedImage && (
-            <div>
+            <div className="UploadImage-div">
                 <img
+                    className="UploadImage-img"
                     alt="not found"
                     width={"max-content"}
                     src={URL.createObjectURL(selectedImage)}
                 />
                 <br />
-                <button onClick={() => {
+                <button
+                    className="UploadImage-button"
+                    onClick={() => {
                     setSelectedImage(null);
                     setFiles([null]);
                 }}>Remove</button>
@@ -118,6 +116,7 @@ return (
         <br />
 
         <input
+            className="UploadImage-input"
             type="file"
             name="myImage"
             onChange={(event) => {
@@ -134,6 +133,7 @@ return (
         <br />
         &nbsp;&nbsp;Title:&nbsp;&nbsp; 
         <input
+            className="UploadImage-input"
             type="text"
             name="title"
             placeholder= {titleErrorPlaceholder}
@@ -149,6 +149,7 @@ return (
         &nbsp;&nbsp;Description:&nbsp;&nbsp;
         <br />
         <textarea
+            className="UploadImage-textarea"
             name="description"
             onChange={(event) => {
                 console.log(event.target.value);
@@ -159,23 +160,10 @@ return (
         <br />
         <br />
 
-        &nbsp;&nbsp;User:&nbsp;&nbsp; 
-        <input
-            type="text"
-            name="user"
-            placeholder={creatorErrorPlaceholder}
-            onChange={(event) => {
-                console.log(event.target.value);
-                setUser(event.target.value);
-                setMissingCreator(false);
-            }}
-        />
-
-        <br />
-        <br />
-
+        
         &nbsp;&nbsp;Date:&nbsp;&nbsp;
         <input
+            className="UploadImage-input"
             type="date"
             name="date"
             onChange={(event) => {
@@ -189,6 +177,7 @@ return (
 
         &nbsp;&nbsp;Competition:&nbsp;&nbsp;
         <input
+            className="UploadImage-input"
             type="text"
             name="competition"
             onChange={(event) => {
@@ -202,16 +191,15 @@ return (
 
         {title && <p>{title}</p>}
         {description && <p>{description}</p>}
-        {user && <p>{user}</p>}
 
         <br />
 
         {files && (
-            <div>
-                <div>
+            <div className="UploadImage-div">
+                <div className="UploadImage-div">
                     {files.image && <p >{files.image}</p>}
                 </div>
-                <div>
+                <div className="UploadImage-div">
                     <button onClick={() => sendToBackend()}>Submit</button>
                 </div>
             </div>

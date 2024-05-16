@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 function SearchPage() {
+  
+  const requestOptions = {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' }
+  };
+  const [competitionsOptions, setCompetitionsOptions] = useState([]);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -11,6 +17,17 @@ function SearchPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [results, setResults] = useState([]);
+
+  useEffect(() => {
+    // GET
+    fetch('http://localhost:8090/resources/properties/competitions', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log('Data fetched successfully:', data);
+        setCompetitionsOptions(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
 
 
   const handleSubmit = async (e) => {
@@ -122,8 +139,10 @@ function SearchPage() {
         Competition:&nbsp;&nbsp;
         <select name="competition" onChange={(e)=>setCompetition(e.target.value)}>
         <option selected value=""> -- select an option -- </option>
-          <option value="Turismo_Carretera">Turismo Carretera</option>
-          <option value="Rally">Rally</option>
+          {competitionsOptions && competitionsOptions.map((option, index) => {
+            return <option key={"competition-option-"+index} value= {option} > {option} </option>
+          })}
+
         </select>
       </label>
       <br />

@@ -1,26 +1,26 @@
-body {
+.UploadImage-body {
     font-family: Arial, sans-serif;
     background-color: #3D4041;
     padding: 20px;
 }
 
-div {
+.UploadImage-div {
     margin-bottom: 20px;
 }
 
-h1 {
+.UploadImage-h1 {
     color: white;
     border-bottom: 2px solid #333;
     padding-bottom: 10px;
 }
 
-input[type="file"] {
+.UploadImage-input[type="file"] {
     margin-top: 10px;
 }
 
-input[type="text"],
-textarea,
-input[type="date"] {
+.UploadImage-input[type="text"],
+.UploadImage-textarea,
+.UploadImage-input[type="date"] {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
@@ -28,7 +28,7 @@ input[type="date"] {
     border: 1px solid #3B3B3B;
 }
 
-button {
+.UploadImage-button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -38,22 +38,22 @@ button {
     margin-top: 10px;
 }
 
-button:hover {
+.UploadImage-button:hover {
     background-color: #0056b3;
 }
 
-p {
+.UploadImage-p {
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-img {
+.UploadImage-img {
     max-width: 100%;
     height: auto;
     margin-top: 10px;
 }
 
-textarea {
+.UploadImage-textarea {
     width: 100%;
     padding: 10px;
     margin-top: 10px;
