@@ -1,4 +1,11 @@
-.ImageComponent-div {
+.ImageComponent-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+
+}
+
+.ImageComponent-resource-div {
     display: flex;
     flex-direction: column;
     text-align: center;
@@ -37,12 +44,15 @@
     display: flex;
     justify-content: flex-end;
     margin-bottom: 0.8%;
+    margin-top: 1%;
+    margin-right: 2%;
 }
 
 .ImageComponent-edit-a {
     text-decoration: none;
 }
 
+.ImageComponent-open-collections-popup-button,
 .ImageComponent-edit-button {
   align-self: center;
   background-color: #949597;
@@ -75,7 +85,7 @@
 }
 
 .ImageComponent-edit-button:hover {
-  background-color: #AA3F2C;
+  background-color: var(--button-red);
   box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
   transform: translate3d(0, 2px, 0);
 }
@@ -85,7 +95,7 @@
 }
 
 .ImageComponent-text-container-outside {
-  padding-left: 8%;
+  padding-left: 2%;
   padding-right: 2%;
   display: flex;
   flex-direction: row;
@@ -99,5 +109,352 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
+}
 
+
+.ImageComponent-text-container-title-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 3%;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.ImageComponent-collections-popup-fullscreen {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(90, 90, 90, 0.7);
+  z-index: 9999;
+}
+
+
+.ImageComponent-collections-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--backgound-light-grey);
+  padding-left: 2%;
+  min-width: 50%;
+  padding-bottom: 2%;
+
+  border-radius: 4px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  color: white;
+}
+
+.ImageComponent-collections-popup-inside {
+  display: flex;
+  flex-direction: column;
+}
+
+.ImageComponent-collections-popup-title-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  align-items: flex-start;
+}
+.ImageComponent-collections-popup-title-row> .leftone {
+  margin-left: 20px;
+}
+.ImageComponent-collections-popup-title-row div:last-child {
+  margin-left: auto;
+}
+
+.ImageComponent-collections-popup-h2 {
+  margin-bottom: 10px;
+}
+
+.ImageComponent-collections-popup-close-button{
+  color: var(--button-red);
+  background: none;
+  font-size: xx-large;
+  margin: 0px;
+  padding: 0px;
+}
+
+.ImageComponent-collections-popup-collections {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-right: 5%;
+  border-top: var(--backgound-dark-grey) 3px solid;
+  padding-top: 2%;
+}
+
+.ImageComponent-collections-popup-element {
+  margin: 5px;
+  padding: 5px;
+  background-color: var(--backgound-dark-grey);
+  width: 100%;
+  cursor: pointer;
+}
+
+.ImageComponent-collections-popup-element:hover {
+  background-color: #aaa;
+}
+
+.ImageComponent-collections-popup-element-selected {
+  background-color: #ff0000;
+  color: #ffffff;
+}
+
+.ImageComponent-collections-popup-element-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.ImageComponent-collections-popup-element-button-button{
+  color: white;
+  background: none;
+  font-size: xx-large;
+  margin: 0px;
+  padding: 0px;
+}
+
+.ImageComponent-separator {
+  margin-top: 2%;
+  margin-bottom: 1%;
+  border-top: 3px solid var(--backgound-dark-grey);
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.ImageComponent-comments-div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 94%;
+  min-height: 50vh;
+  padding-left: 2%;
+  background-color: var(--background-lighter-grey);
+  margin-left: 2%;
+  margin-right: 2%;
+  border-radius: 10px;
+  
+}
+
+.ImageComponent-comments-div-row-center{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+}
+
+.ImageComponent-comments-title {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.ImageComponent-comments-list{
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.ImageComponent-comment-element {
+  border: 1px solid var(--navbar-grey);
+  width: 100%;
+  /* padding: 10px 0; */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 2%;
+  
+}
+
+.ImageComponent-comment-element-username {
+  
+}
+
+.ImageComponent-comment-element-text {
+  margin-top: 5px;
+}
+
+/* 
+    Body, button, comment-thread, and utilities
+
+    Notes:
+        - This section sets some basic styles. You can ignore this part and 
+        go directly to the comment styles.
+*/
+
+/* * {
+  box-sizing: border-box;
+}
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+  color: rgba(0, 0, 0, 0.85);
+  background-color: #f9f9f9;
+
+} */
+
+.ImageComponent-comments-list-comment-thread {
+  width: 100%;
+  max-width: 100%;
+  padding: 0 30px;
+  border: 1px solid transparent; /* Removes margin collapse */
+  box-sizing: border-box;
+}
+
+.m-0 {
+  margin: 0;
+}
+.sr-only {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Comment */
+
+.ImageComponent-comments-list-comment {
+  position: relative;
+  margin: 20px auto;
+  padding: 1%;
+  border-radius: 10px;
+  border: 2px var(--backgound-dark-grey) solid;
+}
+
+.ImageComponent-comments-list-comment-heading-outside-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+}
+
+.ImageComponent-comments-list-comment-heading {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  font-size: 14px;
+}
+.ImageComponent-comments-list-comment-voting {
+  width: 20px;
+  height: 32px;
+  /* border: 1px solid rgba(0, 0, 0, 0.2); */
+  border-radius: 4px;
+}
+.ImageComponent-comments-list-comment-voting button {
+  width: 100%;
+  height: 50%;
+  padding: 0;
+  border: 0;
+  font-size: large;
+  background-color: transparent;
+  padding-bottom: 1%;
+}
+
+.ImageComponent-comments-list-comment-voting-button-upvoted{
+  color: orange;
+}
+
+.ImageComponent-comments-list-comment-info {
+  color: rgba(0, 0, 0, 0.5);
+  margin-left: 10px;
+  display: flex;
+  justify-content: start;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.ImageComponent-comments-list-comment-author {
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+}
+.ImageComponent-comments-list-comment-author:hover {
+  text-decoration: underline;
+}
+
+.ImageComponent-comments-list-comment-creaser button{
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-size: x-large
+}
+
+.ImageComponent-comments-list-comment-creased{
+  display: none;
+}
+
+.ImageComponent-comments-list-comment-body{
+  text-align: justify;
+}
+
+.ImageComponent-comments-list-comment-body button {
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  font-size: 14px;
+  padding-left: 1%;
+  padding-right: 1%;
+  margin-right: 1%;
+  color: white;
+  border: 2px solid var(--backgound-dark-grey);
+  border-radius: 4px;
+  background-color: var(--backgound-light-grey);
+}
+.ImageComponent-comments-list-comment-body button:hover,
+.ImageComponent-comments-list-comment-body button:active {
+  cursor: pointer;
+  background-color: #ecf0f1;
+  color: #41403e;
+}
+
+.ImageComponent-comments-list-comment-reply{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: 2%;
+  margin-left: 2%;
+}
+
+.ImageComponent-comments-list-comment-reply-textarea{
+  width: 80%;
+  height: 100px;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 2px var(--backgound-dark-grey) solid;
+
+}
+
+.ImageComponent-comments-list-comment-reply-submit-button{
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px var(--backgound-dark-grey) solid;
+  background-color: var(--backgound-light-grey);
+  color: white;
+
+}
+
+
+.ImageComponent-comments-list-replies {
+  margin-left: 20px;
+  padding-left: 2%;
+  border-left: var(--backgound-dark-grey) 2px solid;
 }

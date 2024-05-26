@@ -35,4 +35,5 @@
     border: 1px solid #ccc; /* Adding border */
     border-radius: 5px; /* Rounded corners */
     padding: 10px; /* Padding for space around sub-properties */
+    margin-top: 1%;
 }

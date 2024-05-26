@@ -14,36 +14,11 @@ import Navbar from "components/Navbar";
 
 const SingleResourcePage = () => {
     let { id } = useParams();
-    const [text, setText] = useState([]);
-
-    useEffect(() => {
-        fetch('http://localhost:8090/sayhello') 
-            .then((response) => response.json())
-            .then((data) => {
-                console.log(data);
-                setText(data.result);
-            })
-        .catch((err) => {
-            console.log(err.message);
-            setText("Failed")
-        });
-    },[]);
-
-
 
 return (
     <div className="App">
-        {/* <Navbar></Navbar> */}
             <div className="tweet-container">
                 <ImageComponent id={id} ></ImageComponent>
-                {/* <div className="API-TEST-TEXT">
-                    {text}
-                </div>
-                <ul className="comment-list">
-                    <li>Comment 1</li>
-                    <li>Comment 2</li>
-                    <li>Comment 3</li>
-                </ul> */}
             </div>
         </div>
     );

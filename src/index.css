@@ -1,4 +1,19 @@
 
+:root {
+  --navbar-grey: #535658;
+  --backgound-light-grey: #5C6264;
+  --background-lighter-grey: #72797b;
+  --backgound-dark-grey: #4A4D4F;
+  --card-dark-grey: #323030;
+  --button-red: #AA3F2C;
+  --button-red-light: #ca0a0a;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--backgound-light-grey);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -13,6 +28,7 @@ code {
     monospace;
 }
 
-* { 
+
+/* * { 
   outline:1px blue solid;
-} 
+}  */

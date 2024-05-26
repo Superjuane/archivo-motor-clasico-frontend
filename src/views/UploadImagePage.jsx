@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import { useNavigate  } from "react-router-dom";
-import "./UploadImage.css";
+import "./UploadImagePage.css";
 
 const UploadAndDisplayImage = () => {
 const navigate = useNavigate();

@@ -1,5 +1,5 @@
 .Navbar-outside-container {
-    background-color: #434647; /* Background color for the navbar */
+    background-color: var(--navbar-grey); /* Background color for the navbar */
     padding: 10px;
     display: flex;
     justify-content: space-between;
@@ -19,7 +19,7 @@
 }
 
 .Navbar-menu button {
-    background-color: #AA3F2C;
+    background-color: var(--button-red);
     border: none;
     cursor: pointer;
     color: #fff;
@@ -30,9 +30,66 @@
     text-decoration: underline;
 }
 
-.Navbar-loged-in-button button,
+.Navbar-loged-in-container{
+    /* padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center; */
+    position: relative;
+    display: inline-block;
+}
+
+.Navbar-loged-in-user {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Navbar-loged-in-user-image {
+    display: flex;
+    justify-content: center;
+}
+
+.Navbar-loged-in-user-image img{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+}
+
+
+.Navbar-loged-in-dropdown {
+    position: absolute;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 0px;
+}
+
+.Navbar-loged-in-dropdown-button {
+    background: var( --backgound-dark-grey);
+    box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);
+    color: #fff;
+    padding: 12px 25px;
+    border: none;
+    cursor: pointer;
+    min-width: 110%;
+}
+
+.Navbar-loged-in-dropdow-button-div button{
+    background-color: var(--button-red);
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+
 .Navbar-login-button {
-    background-color: #AA3F2C;
+    background-color: var(--button-red);
     color: #fff;
     border: none;
     padding: 8px 16px;
@@ -46,6 +103,3 @@
     background-color: #0056b3;
 }
 
-.Navbar-log-in-external-div {
-
-}

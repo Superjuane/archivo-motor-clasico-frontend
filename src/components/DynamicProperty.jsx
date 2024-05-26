@@ -1,6 +1,19 @@
-import React from 'react';
-import './DynamicProperty.css';
-const DynamicProperty = ({ properties }) => {
+import React, { useState } from 'react';import './DynamicProperty.css';
+
+// const DynamicPropertyRecursive = ({ properties }) => {
+
+// }
+
+// const RenderProperty = ({ property }) => {
+//     return (
+//         <div></div>
+//     )}
+
+const DynamicProperty = ({ props  }) => {
+    const [properties, setproperties] = useState(props);
+    console.log(props);
+    console.log(properties);
+    if(properties.length === 0) setproperties(props);
     return (
         <div className='DynamicProperty-external'>
             {properties.map((property, index) => (
@@ -29,7 +42,6 @@ const DynamicProperty = ({ properties }) => {
                             id={`property-${index}`}
                             value={property.value}
                             onChange={(e) => {
-                                // Handle input change here
                             }}
                         />
                     )}

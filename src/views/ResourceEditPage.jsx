@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {useParams, useNavigate}  from 'react-router-dom';
 import './ResourceEditPage.css';
-import Navbar from '../components/Navbar';
-
+import DynamicProperty from 'components/DynamicProperty';
 //NEW PROPERTY:
 // 1. Add property to resourceToFormData
 // 2. Add property render component
@@ -21,18 +20,33 @@ function ResourceEditPage() {
     creator: '',
   });
 
+  const [activatedProperties, setActivatedProperties] = useState({
+    Date: false,
+    Competition: false,
+    MagazineIssue: false,
+    Persons: 0
+  });
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
     properties: [],
   });
 
+  // const handleFormChange = (name, value)=> {
+  //   console.log("ejecutando ")
+  //   setFormData(prevState => ({
+  //     ...prevState,
+  //     [name]: value
+  //   }));
+  // }
+
   const requestOptions = {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' }
   };
 
-  const resourceToFormData = (resource) => {
+  const resourceToFormData = (resource) => { //formats Resource to Form
     let result = {
       id: resource.id,
       title: resource.title,
@@ -43,7 +57,6 @@ function ResourceEditPage() {
 
     resource.properties.forEach(p => {
       if(p.Date){
-        console.log('Date property is', p.Date.date.split('T')[0]);
         result.properties.push({"Date": p.Date.date.split('T')[0]});
       }
       else if(p.Competition){
@@ -53,7 +66,35 @@ function ResourceEditPage() {
     return result;
   };
 
-  const formatFormData = (formData) => {
+  const fromResourceActivateProperties = (resource) => { //activates properties in form
+    let result = {
+      Date: false,
+      Competition: false,
+      MagazineIssue: false,
+      Persons: 0
+    }
+
+    resource.properties.forEach((p, index) => {
+      // console.log("index " + index + " || ")
+      if(p.Date){
+        // console.log("Date")
+        result.Date = true;
+      }
+      else if(p.Competition){
+        result.Competition = true;
+      }
+      else if (p.MagazineIssue){
+        result.MagazineIssue = true;
+      }
+      else if (p.Persons){
+        let persons = p.Persons;
+        result.Persons = persons.len();
+      }
+    });
+    return result;
+  }
+
+  const formatFormData = (formData) => { //formats Form to Resource
     formData.properties.forEach(p => {
       if(p.Date){
         formData.date = p.Date+'T00:00:00Z';
@@ -65,20 +106,21 @@ function ResourceEditPage() {
     return formData;
   };
 
-  useEffect(() => {
+  useEffect(() => { //GET
     // GET
     fetch('http://localhost:8090/resources/'+id, requestOptions)
       .then(response => response.json())
       .then(data => {
         console.log('Data fetched successfully:', data);
         setResource(data);
+        setActivatedProperties(fromResourceActivateProperties(data));
         setFormData(resourceToFormData(data));
-        document.getElementById("ResourceEditPage-edit-button").disabled = false;
+        console.log(activatedProperties)
       })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e) => { //handles changes in form
     if(dataUploadedSuccessfully) setDataUploadedSuccessfully(false);
     const { name, value } = e.target;
     setFormData(prevState => ({
@@ -87,10 +129,10 @@ function ResourceEditPage() {
     }));
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = () => {//PUT
     console.log('Submitting:', JSON.stringify(formatFormData(formData)));
 
-    document.getElementById("ResourceEditPage-edit-button").disabled = true;
+    document.getElementById("ResourceEdit-edit-button").disabled = true;
 
     fetch('http://localhost:8090/resources/'+id, {
       method: 'PUT',
@@ -106,6 +148,7 @@ function ResourceEditPage() {
       setResource(data);
       setFormData(resourceToFormData(data));
       setDataUploadedSuccessfully(true);
+      setTimeout(setDataUploadedSuccessfully(false),3000)
     })
     .catch(error => console.error('Error updating data:', error))
     .finally(() => {
@@ -113,54 +156,74 @@ function ResourceEditPage() {
     });
   };
 
+  //DELETE
   const [showDeleteConfirmation, setshowDeleteConfirmation] = useState(false);
-
-    const handleDelete = () => {
-      setshowDeleteConfirmation(true);
-    };
-
-    const handleDeleteConfirmation = (confirmed) => {
-        if (confirmed) {
-          fetch('http://localhost:8090/resources/'+id, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': localStorage.getItem('auth')
-            },
-          })
-          .then(response => {
-            let data = response.json()
-            if(!response.ok) throw {code: response.status, data: data};
-            return data;
-          })
-          .then(data => {
-            console.log('Resource deleted successfully');
-            alert('El recurso ha sido eliminado correctamente.');
-            navigate('/resources');
-          })
-          .catch((error) => {
-            if(error.code === 400){
-                console.log("Bad Request")
-            }
-            if(error.code === 409){
-                console.log("Conflict")
-            }
-            console.error('Error:', error);
-          }); 
-        } else {
-            console.log('Deletion canceled.');
+  const handleDelete = () => {
+    setshowDeleteConfirmation(true);
+  };
+  const handleDeleteConfirmation = (confirmed) => {
+    if (confirmed) {
+      fetch('http://localhost:8090/resources/'+id, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('auth')
+        },
+      })
+      .then(response => {
+        let data = response.json()
+        if(!response.ok) throw {code: response.status, data: data};
+        return data;
+      })
+      .then(data => {
+        console.log('Resource deleted successfully');
+        alert('El recurso ha sido eliminado correctamente.');
+        navigate('/resources');
+      })
+      .catch((error) => {
+        if(error.code === 400){
+            console.log("Bad Request")
         }
-        setshowDeleteConfirmation(false);
-    };
+        if(error.code === 409){
+            console.log("Conflict")
+        }
+        console.error('Error:', error);
+      }); 
+    } else {
+        console.log('Deletion canceled.');
+    }
+    setshowDeleteConfirmation(false);
+  };
+
+
+  //NEW PROPERTIES
+  const [showNewPropertyPopup, setshowNewPropertyPopup] = useState(false);
+  const handleNewPropertyPopup = () => {
+    setshowNewPropertyPopup(true);
+    console.log(activatedProperties)
+  }
+  const handleNewPropertiesSelected = (newProps) => {
+    console.log('New properties selected');
+    console.log(newProps);
+    setshowNewPropertyPopup(false);
+  }
+  const handleCheckboxChange = (event) => {
+    const { name, checked } = event.target;
+    let nameSplit = name.split('-');
+    nameSplit = nameSplit[nameSplit.length - 1];
+    setActivatedProperties((prevProperties) => ({
+      ...prevProperties,
+      [nameSplit]: checked,
+    }));
+  };
+
 
   const propertyComponent = (label, name) => {
+     //PROPERTY COMPONENT MARK II
     if(formData){
       let prop = formData.properties.find(p => p[label]);
       let index = formData.properties.findIndex(p => p[label]);
-      console.log(label+" index"+index)
       if (prop) {
-        console.log(label+' property stablished, rendering component '+label);
-        console.log(prop)
         return (
           <div className='ResourceEdit-input-group'>
             <label>{label}</label>
@@ -186,45 +249,42 @@ function ResourceEditPage() {
 
   //TODO: move to component
   let dateComponent = propertyComponent("Date", "date");
-  
-
   let competitionComponent = propertyComponent("Competition", "name");
-  // if(formData){
-  //   let prop = formData.properties.find(p => p.Competition);
-  //   let index = formData.properties.findIndex(p => p.Competition);
-  //   console.log("competition index"+index)
-  //   if (prop) {
-  //     console.log('Competition property stablished, rendering component Competition');
-  //     console.log(prop)
-  //     competitionComponent = (
-  //       <div className='input-group'>
-  //         <label> Competition</label>
-  //         <input
-  //         type="text"
-  //         name="competition"
-  //         value={prop.Competition}
-  //         onChange={(e) => {
-  //           let newProperties = formData.properties;
-  //           newProperties[index].Competition = e.target.value;
-  //           setFormData(prevState => ({
-  //             ...prevState,
-  //             "properties": newProperties
-  //           }));
-  //         }}
-  //       />
-  //       </div>
 
-  //     );
-  //   }
-  // }
+// const preparePropertiesToShow = () => {
+//   let propertiesToShow = [];
+//   if(activatedProperties.Date){
+//     propertiesToShow.push({name: "Date", type: "date", value: formData.properties.find(p => p.Date).Date});
+//   }
+//   if(activatedProperties.MagazineIssue){
+//     propertiesToShow.push({name: "Magazine Issue", type: "complex", value: [
+//       {name: "Name", type: "text", value: "name"},
+//       {name: "Number", type: "date", value: "1995-07-01"}
+//     ]});
+//   }
+//     // {name: "Date", type: "date", value: formData.properties.Date},
+//     // {name: "Competition", type: "text", value: formData.properties.Competition},
+//     // {name: "Magazine Issue", type: "complex", value: [
+//     //   {name: "Name", type: "text", value: "name"},
+//     //   {name: "Number", type: "date", value: "1995-07-01"}
+    
+//     // ]},
+//     // {name: "Persons", type: "number", value: formData.properties.Persons}
+//   return propertiesToShow;
+// }
 
-  return (
+return (
 <div>
   <div className="ResourceEdit-container">
     <h1>Edit Resource</h1>
     <br />
     <div className="ResourceEdit-navigate-to-resource-row">
-        <button className="ResourceEdit-button" onClick={()=>{navigate('/resources/'+id)}}>Navegar al recurso </button>
+      <button className='ResourceEdit-button' onClick={handleNewPropertyPopup}>Gestionar propiedades</button>
+      <button 
+        className="ResourceEdit-button" 
+        onClick={(event)=>{
+          window.open('/resources/'+id,'_blank')
+        }}>Navegar al recurso </button>
     </div>
 
     <div className="ResourceEdit-content">
@@ -246,37 +306,98 @@ function ResourceEditPage() {
             onChange={handleChange}
           />
         </div>
-         
-        {dateComponent}
-
-        {competitionComponent}
 
         <div className="ResourceEdit-input-group">
           <label>Description:</label>
-          <input
+          <textarea
             type="text"
             name="description"
             value={formData.description}
             onChange={handleChange}
-          />
+          ></textarea>
         </div>
-        <div className='ResourceEdit-button-outside-container'>
-          <button id='ResourceEdit-edit-button' className='ResourceEdit-button' onClick={handleSubmit}>Subir recurso</button>
-          {dataUploadedSuccessfully && <label>Data uploaded successfully!</label>}
+
+        {/* <DynamicProperty props = {preparePropertiesToShow()}/> */}
+
+        {dateComponent}
+
+        {competitionComponent}
+        
+        <div className='ResourceEdit-button-outside-container-column'>
+          <div className='ResourceEdit-button-outside-container-row'>
+            <button id='ResourceEdit-edit-button' className='ResourceEdit-button' onClick={handleSubmit}>Guardar recurso</button>
+          </div>
+          {dataUploadedSuccessfully && <label>Recurso guardado 👌</label>}
         </div>
       </div>
     </div>
   </div>
   {showDeleteConfirmation && (
-                <div className="ResourceEdit-delete-confirmation-popup">
-                    <p>Estas seguro de que quieres eliminar este recurso?</p>
-                    <p>No lo podrás recuperar !!</p>
-                    <div className='ResourceEdit-delete-confirmation-popup-row'>
-                      <button className='ResourceEdit-button' onClick={() => handleDeleteConfirmation(true)}>Si</button>
-                      <button className='ResourceEdit-button' id='ResourceEdit-delete-popup-rejection-button' onClick={() => handleDeleteConfirmation(false)}>No</button>
-                    </div>
-                  </div>
-            )}
+    <div className="ResourceEdit-delete-confirmation-popup">
+        <p>Estas seguro de que quieres eliminar este recurso?</p>
+        <p>No lo podrás recuperar !!</p>
+        <div className='ResourceEdit-delete-confirmation-popup-row'>
+          <button className='ResourceEdit-button' onClick={() => handleDeleteConfirmation(true)}>Si</button>
+          <button className='ResourceEdit-button' id='ResourceEdit-delete-popup-rejection-button' onClick={() => handleDeleteConfirmation(false)}>No</button>
+        </div>
+      </div>
+  )}
+  {showNewPropertyPopup && (
+    <div className='ResourceEdit-NewProperty-popup'>
+      <h2>Selecciona las propiedades que quieres agregar...</h2>
+      <form className='ResourceEdit-NewProperty-popup-form' id='ResourceEdit-NewProperty-popup-form'>
+        <label className='ResourceEdit-NewProperty-popup-form-label'>
+          <input 
+          className='ResourceEdit-NewProperty-popup-form-input' 
+          type="checkbox" 
+          name="NewProperty-Form-Date" 
+          checked={activatedProperties.Date} 
+          onChange={handleCheckboxChange} 
+          /> Fecha
+        </label>
+        <label className='ResourceEdit-NewProperty-popup-form-label'>
+          <input 
+          className='ResourceEdit-NewProperty-popup-form-input' 
+          type="checkbox" 
+          name="NewProperty-Form-Competition" 
+          checked={activatedProperties.Competition} 
+          onChange={handleCheckboxChange}
+          /> Competición
+        </label>
+        <label className='ResourceEdit-NewProperty-popup-form-label'>
+          <input 
+          className='ResourceEdit-NewProperty-popup-form-input' 
+          type="checkbox" 
+          name="NewProperty-Form-MagazineIssue" 
+          checked={activatedProperties.MagazineIssue} 
+          onChange={handleCheckboxChange}
+          /> Revista
+        </label>
+        <label className='ResourceEdit-NewProperty-popup-form-label'>
+          <input 
+          className='ResourceEdit-NewProperty-popup-form-input' 
+          type="checkbox" 
+          name="NewProperty-Form-Persons" 
+          checked={activatedProperties.Persons} 
+          onChange={handleCheckboxChange}
+          /> Personas
+        </label>
+        <button  className='ResourceEdit-button' type="button" 
+          onClick={()=>{
+            let newProps ={
+              Date: document.getElementsByName('NewProperty-Form-Date')[0].checked,
+              Competition: document.getElementsByName('NewProperty-Form-Competition')[0].checked,
+              MagazineIssue: document.getElementsByName('NewProperty-Form-MagazineIssue')[0].checked,
+              Persons: document.getElementsByName('NewProperty-Form-Persons')[0].checked
+            };
+
+            handleNewPropertiesSelected(newProps)
+          }}>
+          Aceptar
+        </button>
+      </form>
+    </div>
+  )}
 </div>
   );
 }

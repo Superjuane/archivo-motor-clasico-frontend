@@ -96,6 +96,7 @@ if(problem !== ''){
           <input
             value={password}
             placeholder="Enter your password here"
+            onKeyDown={(e)=>{if(e.key === 'Enter' && !e.shiftKey){onButtonClick()}}}
             onChange={(ev) => setPassword(ev.target.value)}
             className={'inputBox'}
           />

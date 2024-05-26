@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import './ResetPassword.css';
+import './ResetPasswordPage.css';
 
 
 function ResetPassword() {
