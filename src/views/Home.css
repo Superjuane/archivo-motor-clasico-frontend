@@ -5,7 +5,12 @@ body {
     background-color: #f4f4f4;
 }
 
-.container {
+.Home-container-outside {
+    min-height: 100vh;
+
+}
+
+.Home-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;

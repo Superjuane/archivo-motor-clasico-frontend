@@ -18,6 +18,7 @@ import ResetPassword from 'views/ResetPasswordPage';
 import Navbar from 'components/Navbar';
 import UserPage from 'views/UserPage';
 import CollectionPage from 'views/CollectionPage';
+import Footer from 'components/Footer';
 
 
 function App() {
@@ -63,6 +64,7 @@ function App() {
       {/* <Route path="/chapter/:chapterNumber" element={<Chapter />} /> */}
       {/* <Route path="/*" element={<NotFound />} /> */}
     </Routes>
+    <Footer></Footer>
   </BrowserRouter>
   );
 }

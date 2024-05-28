@@ -3,9 +3,11 @@
 
 import React, { useState } from "react";
 import { useNavigate  } from "react-router-dom";
+import { ReactSearchAutocomplete } from 'react-search-autocomplete';
 import "./UploadImagePage.css";
 
 const UploadAndDisplayImage = () => {
+const URL = 'http://localhost:8090';
 const navigate = useNavigate();
 
 const [selectedImage, setSelectedImage] = useState(null);
@@ -17,6 +19,46 @@ const [competition, setCompetition] = useState(null);
 
 const [missingTitle, setMissingTitle] = useState(null);
 const [missingImage, setMissingImage] = useState(null);
+
+const [CompetitionSuggestions, setCompetitionSuggestions] = useState([]);
+
+const fetchCompetitionSuggestions = async (searchTerm) => {
+
+       fetch(URL+'/resources/properties/competitions?competition='+searchTerm, {
+            method: 'GET',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Allow-Control-Allow-Origin': '*', 
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            // console.log(data);
+            let i = 0;
+            let newCompetitionSuggestions = [];
+            data.forEach(element => {
+                newCompetitionSuggestions.push({id: i, name: element});
+                ++i;
+            });
+            setCompetitionSuggestions(newCompetitionSuggestions); // Update our suggestions state with the API response
+        })
+        .catch(error => console.error('Error fetching competition suggestions:', error));
+  };
+
+const handleOnCompetitionSelect = (item) => {
+    // The item selected
+    // console.log(item);
+    setCompetition(item.name);
+};
+
+const handleOnCompetitionSearch = (string, results) => {
+    console.log("Searching for: "+ string);
+    fetchCompetitionSuggestions(string);
+    console.log(CompetitionSuggestions);
+    if(results.length === 0){
+        setCompetition(string);
+    }
+};
 
 function sendToBackend(){
 
@@ -90,6 +132,7 @@ function getBase64(file) {
 let titleErrorPlaceholder = missingTitle ? "missing title !!" : "Title";
 let imageErrorPlaceholder = missingImage ? <div style={{"color":"red"}}> IMAGE IS MISSING ! </div> : null;
 
+console.log("COMPETITION SAVED: "+competition);
 return (
     <div className="UploadImage-div">
         <h1 className="UploadImage-h1">Upload new image</h1>
@@ -176,7 +219,30 @@ return (
         <br />
 
         &nbsp;&nbsp;Competition:&nbsp;&nbsp;
-        <input
+        <div className="UploadImagePage-Competition-Searchbar-div">
+        <ReactSearchAutocomplete
+            items={CompetitionSuggestions}
+            onSearch={handleOnCompetitionSearch}
+            onSelect={handleOnCompetitionSelect}
+            styling={{
+                height: "44px",
+                border: "1px solid #dfe1e5",
+                borderRadius: "10px",
+                backgroundColor: "grey",
+                // boxShadow: "rgba(32, 33, 36, 0.28) 0px 1px 6px 0px",
+                hoverBackgroundColor: "#eee",
+                color: "white",
+                fontSize: "16px",
+                fontFamily: "Arial",
+                iconColor: "white",
+                lineColor: "rgb(232, 234, 237)",
+                // placeholderColor: "grey",
+                // clearIconMargin: '3px 14px 0 0',
+                // searchIconMargin: '0 0 0 16px'
+                }}
+        />
+        </div>
+        {/* <input
             className="UploadImage-input"
             type="text"
             name="competition"
@@ -184,7 +250,7 @@ return (
                 console.log(event.target.value);
                 setCompetition(event.target.value);
             }}
-        />
+        /> */}
 
         <br />
         <br />

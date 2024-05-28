@@ -9,6 +9,7 @@ const CollectionPage = () => {
     const URL = 'http://localhost:8090';
     const { id } = useParams();
     const navigate = useNavigate();
+    let username = localStorage.getItem('username');
 
 
 const [collection, setCollection] = useState();
@@ -62,7 +63,12 @@ const getDeleteButtonClassName = () => {
 const handleDeleteResource = (resourceId) => {
     fetch(URL+'/collections/'+id+'/resources/'+resourceId, {
         method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' }
+        headers: { 
+            'Content-Type': 'application/json',
+            'Allow-Control-Allow-Origin': '*',
+            'Authorization': localStorage.getItem('auth') 
+            
+        }
     })
     .then(response => response.json())
     .then(data => {
@@ -87,7 +93,7 @@ return (
     <div className='CollectionPage-outiside-div'>
         <div className='CollectionPage-header-div'>
             <div className='CollectionPage-header-div-second'>
-                {!isEditTitleModeOn ? 
+                {!isEditTitleModeOn || username === null || collection.creator !== username ? 
                     <h1>{collection.title}</h1>
                     :
                     <input 
@@ -97,34 +103,35 @@ return (
                         maxLength={50}
                         className='CollectionPage-header-title-input' />
                 }
-                {!isEditTitleModeOn ?
-                    <button onClick={()=>setIsEditTitleModeOn(!isEditTitleModeOn)}>
-                        <FontAwesomeIcon icon={faPencil} />
-                    </button>
-                :
-                    <button onClick={()=>{setIsEditTitleModeOn(!isEditTitleModeOn);
-                                        fetch(URL+'/collections/'+id, {
-                                            method: 'PUT',
-                                            headers: { 
-                                                'Content-Type': 'application/json',
-                                                'Allow-Control-Allow-Origin': '*',
-                                                'Authorization': localStorage.getItem('auth') 
-                                            },
-                                            body: JSON.stringify({newTitle: collection.title})
-                                        })
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            console.log(data);
-                                            setIsEditTitleModeOn(false);
-                                        })
-                                        .catch(error => console.error('Error fetching user data:', error));
-                                        }}>
-                        <FontAwesomeIcon icon={faFloppyDisk} />
-                    </button>
-                }               
-                
+                {username !== null && collection.creator === username &&
+                    (!isEditTitleModeOn ?
+                        <button onClick={()=>setIsEditTitleModeOn(!isEditTitleModeOn)}>
+                            <FontAwesomeIcon icon={faPencil} />
+                        </button>
+                    :
+                        <button onClick={()=>{setIsEditTitleModeOn(!isEditTitleModeOn);
+                                            fetch(URL+'/collections/'+id, {
+                                                method: 'PUT',
+                                                headers: { 
+                                                    'Content-Type': 'application/json',
+                                                    'Allow-Control-Allow-Origin': '*',
+                                                    'Authorization': localStorage.getItem('auth') 
+                                                },
+                                                body: JSON.stringify({newTitle: collection.title})
+                                            })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                console.log(data);
+                                                setIsEditTitleModeOn(false);
+                                            })
+                                            .catch(error => console.error('Error fetching user data:', error));
+                                            }}>
+                            <FontAwesomeIcon icon={faFloppyDisk} />
+                        </button>
+                    )               
+                }
             </div>
-            <button onClick={()=>{setIsDeleteModeOn(!isDeleteModeOn)}} className={getDeleteButtonClassName()}> Borrar elementos </button>
+            {username !== null && collection.creator === username && (<button onClick={()=>{setIsDeleteModeOn(!isDeleteModeOn)}} className={getDeleteButtonClassName()}> Borrar elementos </button>)}
         </div>
         
         <div className='CollectionPage-Resources-outside-div'>

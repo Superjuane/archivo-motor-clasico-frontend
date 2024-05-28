@@ -55,12 +55,82 @@
   flex-direction: column;
 }
 
+.ResourceEdit-MagazineIssue-outer-input-group {
+  padding: 1%;
+  padding-right: 4%;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 98%;
+}
+
+.ResourceEdit-MagazineIssue-outer-input-group h2{
+  margin: 0;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
+.ResourceEdit-Persons-header-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 3%;
+}
+
+.ResourceEdit-Persons-header-row-button {
+  background: transparent;
+  font-size: xx-large;
+}
+
+.ResourceEdit-Persons-element-outside-div{
+  display: flex;
+  flex-direction: row;
+  align-items: start;
+  justify-content:start;
+  margin-top: 3%;
+}
+
+.ResourceEdit-Persons-element-remove-button{
+  background: transparent;
+  font-size: x-large;
+}
+
+.ResourceEdit-Persons-element-div{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 1%;
+}
+
+.ResourceEdit-Persons-element-input {
+  padding: 8px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 1%;
+}
+
+.ResourceEdit-Persons-outer-input-group {
+  margin-top: 3%;
+  padding: 1%;
+  padding-right: 4%;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  width: 98%;
+}
+
+.ResourceEdit-Persons-outer-input-group h2{
+  margin: 0;
+  margin-top: 1%;
+  margin-bottom: 1%;
+}
+
 .ResourceEdit-input-group {
   margin-bottom: 15px;
+  width: 100%;
 }
 
 .ResourceEdit-input-group label {
-  margin-bottom: 5px;
+  margin-bottom: 2%;
 }
 
 .ResourceEdit-input-group input {
@@ -68,6 +138,7 @@
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 4px;
+  margin-top: 1%;
 }
 
 .ResourceEdit-input-group textarea {

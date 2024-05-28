@@ -245,7 +245,7 @@
   margin-left: 2%;
   margin-right: 2%;
   border-radius: 10px;
-  
+  margin-bottom: 3%;
 }
 
 .ImageComponent-comments-div-row-center{
@@ -307,12 +307,55 @@ body {
 
 } */
 
+.ImageComponent-comments-list-comment-thread-outside-div{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-left: 2%;
+}
+
+.ImageComponent-comments-list-comment-thread-textarea{
+  width: 90%;
+  height: 100px;
+  padding: 10px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: 2px var(--backgound-dark-grey) solid;
+}
+
+.ImageComponent-comments-list-comment-thread-submit-button{
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px var(--backgound-dark-grey) solid;
+  background-color: var(--backgound-light-grey);
+  color: white;
+
+}
+
 .ImageComponent-comments-list-comment-thread {
   width: 100%;
   max-width: 100%;
-  padding: 0 30px;
+  padding-right: 5%;
   border: 1px solid transparent; /* Removes margin collapse */
   box-sizing: border-box;
+}
+
+.ImageComponent-comments-list-comment-thread-empty{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+}
+
+.ImageComponent-comments-list-comment-thread-empty p{
+  text-align: center;
+  margin-top: 20px;
+  font-size: medium;
 }
 
 .m-0 {
@@ -358,6 +401,8 @@ body {
   /* border: 1px solid rgba(0, 0, 0, 0.2); */
   border-radius: 4px;
 }
+
+
 .ImageComponent-comments-list-comment-voting button {
   width: 100%;
   height: 50%;
@@ -369,6 +414,13 @@ body {
 }
 
 .ImageComponent-comments-list-comment-voting-button-upvoted{
+  width: 100%;
+  height: 50%;
+  padding: 0;
+  border: 0;
+  font-size: large;
+  background-color: transparent;
+  padding-bottom: 1%;
   color: orange;
 }
 
@@ -398,6 +450,45 @@ body {
 
 .ImageComponent-comments-list-comment-creased{
   display: none;
+}
+
+.ImageComponent-comments-list-comment-delete-button{
+  background-color: transparent;
+  color: white;
+  border: none;
+  font-size: small;
+}
+
+.ImageComponent-comments-list-comment-delete-popup{
+  position: absolute;
+  background-color: var(--backgound-light-grey);
+  border: 1px var(--backgound-dark-grey) solid;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 9999;
+  top:3%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: max-content;
+}
+
+.ImageComponent-comments-list-comment-delete-popup-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+
+}
+
+.ImageComponent-comments-list-comment-delete-popup button{
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 2px var(--backgound-dark-grey) solid;
+  background-color: var(--backgound-light-grey);
+  color: white;
 }
 
 .ImageComponent-comments-list-comment-body{
@@ -457,4 +548,9 @@ body {
   margin-left: 20px;
   padding-left: 2%;
   border-left: var(--backgound-dark-grey) 2px solid;
+}
+
+.ImageComponent-comments-list-replies-show-more-replies-button {
+  background-color: transparent;
+  color: white;
 }

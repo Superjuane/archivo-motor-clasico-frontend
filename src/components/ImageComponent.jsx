@@ -1,13 +1,12 @@
-import {React, useState, useEffect } from 'react';
+import {React, useState, useEffect, useRef } from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faSpinner, faCheck, faCircleXmark, faPlusSquare, faMinusSquare } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faSpinner, faCheck, faCircleXmark, faPlusSquare, faMinusSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
 // import Tooltip from '@mui/material/Tooltip';
 import './ImageComponent.css';
 
 
-const RecursiveComment = (comment, nChildrenComments) => {
-    console.log("-------- ENTERING RECURSIVE COMMENT ---------")
+const RecursiveComment = (comment) => {
     const username = localStorage.getItem('username');
 
     const [isCommentCreased, setIsCommentCreased] = useState(false);
@@ -17,6 +16,9 @@ const RecursiveComment = (comment, nChildrenComments) => {
 
     const [isReplyActive, setIsReplyActive] = useState(false);
     const [replyText, setReplyText] = useState('');
+
+    const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false);
+
 
     const handleReplyButton = () => {
         if(username!=null){
@@ -56,8 +58,7 @@ const RecursiveComment = (comment, nChildrenComments) => {
             })
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log("-------- children comment of"+comment.comment.id+" ---------")
-                    console.log(data);
+                    // console.log(data);
                     setComments(data);
                 })
                 .catch((err) => {
@@ -68,7 +69,7 @@ const RecursiveComment = (comment, nChildrenComments) => {
 
 
     const handleSubmit = () => {
-        if(username != null && replyText != null && replyText != ''){
+        if(username != null && replyText != null && replyText !== ''){
             fetch("http://localhost:8090/comments", {
                 method: 'POST',
                 headers: {
@@ -94,11 +95,105 @@ const RecursiveComment = (comment, nChildrenComments) => {
         }
     }
 
+    const handleDelete = () => {
+        fetch("http://localhost:8090/comments/"+comment.comment.id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Allow-Control-Allow-Origin': '*',
+                'Authorization': localStorage.getItem('auth')
+            },
+        })
+        .then((response) => {
+            console.log(response);
+            if(response.status !== 204){
+                throw new Error("Error deleting comment");
+            }
+            //response.json();
+        })
+        .then(() => {
+            console.log("Comment deleted successfully");
+            window.location.reload();
+        })
+        .catch((err) => {
+            console.log(err.message);
+        });
+
+    }
+
+    const renderMoreSubcoments = () => {
+        console.log(comment.comment)
+        // if(comment.comment.comments != null && comment.comment.comments.length > 0){
+            fetch("http://localhost:8090/comments?comment=" + comment.comment.id, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Allow-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('auth')
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log("-------- children comment of"+comment.comment.id+" ---------")
+                    console.log(data);
+                    setComments(data);
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                });
+        // }
+    }
+
+    const handleSubmitUpvote = () => {
+        if(username != null){
+            fetch("http://localhost:8090/upvotes/"+comment.comment.id, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Allow-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('auth')
+                },
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data);
+                setUpvote(data);
+            })
+            .catch((err) => {
+                console.log(err.message);
+            });
+        }
+    }
+
+    const handleSubmitDownvote = () => {
+        if(username != null){
+            fetch("http://localhost:8090/upvotes/"+comment.comment.id, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Allow-Control-Allow-Origin': '*',
+                    'Authorization': localStorage.getItem('auth')
+                },
+            })
+            .then((response) => {
+                if(response.status !== 204){
+                    throw new Error("Error deleting upvote");
+                }
+                else if (response.status === 204){
+                    setUpvote({upvotes: upvote.upvotes-1, users: upvote.users.filter(user => user !== username)});
+                }
+            })
+            .catch((err) => {
+                console.log("error: "+ err.message);
+            });
+        }
+    }
+
     const getIsCreasedClassname = () => {
         if(isCommentCreased){
             return 'ImageComponent-comments-list-comment-creased';
         } else {
-            return 'ImageComponent-comments-list-comment-uncreased';
+            return 'ImageComponent-comments-list-comment-not-creased';
         }
     }
 
@@ -107,14 +202,18 @@ const RecursiveComment = (comment, nChildrenComments) => {
                 <div className='ImageComponent-comments-list-comment-heading-outside-row'>
                     <div className="ImageComponent-comments-list-comment-heading">
                         <div className="ImageComponent-comments-list-comment-voting">
-                            <button type="button" className={()=>{
-                                if(upvote.upvoted){
-                                    return '';
-                                } else{return 'ImageComponent-comments-list-comment-voting-button-upvoted';}
-                            }}>
+                            { username !== null  && upvote.users && upvote.users.includes(username) ?
+                            <button type="button" className='ImageComponent-comments-list-comment-voting-button-upvoted' onClick={()=>handleSubmitDownvote()}>
                                 <span aria-hidden="true">&#9650;</span>
                                 <span className="sr-only">Vote up</span>
                             </button>
+                            :
+                            <button type="button" onClick={()=>handleSubmitUpvote()}>
+                                <span aria-hidden="true">&#9650;</span>
+                                <span className="sr-only">Vote up</span>
+                            </button>
+
+                            }
                         </div>
                         <div className="ImageComponent-comments-list-comment-info">
                                 <a href={"/user/"+comment.comment.creator} className="ImageComponent-comments-list-comment-author">{comment.comment.creator}</a>
@@ -122,7 +221,19 @@ const RecursiveComment = (comment, nChildrenComments) => {
                                 {upvote.upvotes ? upvote.upvotes : 0} upvotes
                             </p>
                         </div>
+                        { username !== null && username === comment.comment.creator &&(<button className='ImageComponent-comments-list-comment-delete-button' onClick={()=>setIsDeletePopupOpen(true)}>
+                            <FontAwesomeIcon icon={faTrash} />
+                        </button>)}
                     </div>
+                    {isDeletePopupOpen && (
+                        <div className="ImageComponent-comments-list-comment-delete-popup">
+                            <p>¿Seguro que quieres borrar este comentario?</p>
+                            <div className='ImageComponent-comments-list-comment-delete-popup-row'>
+                                <button onClick={()=>handleDelete()}>Sí</button>
+                                <button onClick={()=>setIsDeletePopupOpen(false)}>No</button>
+                            </div>
+                        </div>
+                    )}
                     <div className="ImageComponent-comments-list-comment-creaser">
                         <button type="button" onClick={()=>{setIsCommentCreased(!isCommentCreased)}}>
                             {isCommentCreased ? 
@@ -134,13 +245,13 @@ const RecursiveComment = (comment, nChildrenComments) => {
                     </div>
                 </div>
     
-            {/* <div className={getIsCreasedClassname()}> */}
+            <div className={getIsCreasedClassname()}>
                 <div className="ImageComponent-comments-list-comment-body">
                     <p>
                         {comment.comment.text}
                     </p>
-                    <button type="button" onClick={()=>{handleReplyButton()}}>Reply</button>
-                    <button type="button">Flag</button>
+                    <button type="button" onClick={()=>{handleReplyButton()}}>Responder</button>
+                    {(username === null || username !== comment.comment.creator) && (<button type="button">Reportar</button>)}
                 </div>
 
                 {isReplyActive && (
@@ -167,7 +278,9 @@ const RecursiveComment = (comment, nChildrenComments) => {
                         <RecursiveComment key={childComment.id} comment={childComment} />
                     ))}
                 </div>)}
-            {/* </div> */}
+
+                { comments.length == 0 && (<button className='ImageComponent-comments-list-replies-show-more-replies-button' onClick={()=>renderMoreSubcoments()}> show more replies </button>)}
+            </div>
         </div>
     );
     
@@ -176,6 +289,8 @@ const RecursiveComment = (comment, nChildrenComments) => {
 const ImageComponent = (id) => {
     const URL = 'http://localhost:8090';
     const username = localStorage.getItem('username');
+    const inputRef = useRef();
+
 
     const [image, setImage] = useState(null);
     const [title, setTitle] = useState(null);
@@ -183,6 +298,7 @@ const ImageComponent = (id) => {
     const [creator, setCreator] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [errorText, setErrorText] = useState(null);
 
     //ADD TO COLLECTIONS
     const [collections, setCollections] = useState([]);
@@ -191,7 +307,6 @@ const ImageComponent = (id) => {
 
     //COMMENTS
     const [comments, setComments] = useState([]);
-    const [upvotes, setUpvotes] = useState({});
 
     const handleCollectionsPopup = () => {
         if(!username) {
@@ -230,6 +345,32 @@ const ImageComponent = (id) => {
             .catch(error => console.error('Error fetching collections:', error));
         window.scrollTo(0, 0)
         setIsCollectionsPopupOpen(true);
+    }
+
+    const handleSubmitResourceComment  = () => {
+        let text = inputRef.current.value;
+        if(text === '') return;
+        if(username === null) setErrorText("You must be logged in to comment");
+        fetch(URL+'/comments', {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'Allow-Control-Allow-Origin': '*',
+                'Authorization': localStorage.getItem('auth')
+            },
+            body: JSON.stringify({
+                text: text,
+                resourceId: id.id
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            setComments([...comments, data]);
+            inputRef.current.value = '';
+        })
+        .catch(error => console.error('Error creating comment:', error))
+        
     }
 
     useEffect(() => { //GET RESOURCE AND COMMENTS
@@ -357,21 +498,45 @@ const ImageComponent = (id) => {
 
                 <div className='ImageComponent-separator'></div>
 
-                {comments.length > 0 &&
+                
                 <div className='ImageComponent-comments-div'>
                     <div className='ImageComponent-comments-div-row-center'>
                         <div className='ImageComponent-comments-title'>
                             <h2>Discusión</h2>
+                            {errorText && <p style={{color:"red"}}>{errorText}</p>}
                         </div>
                     </div>
-                    {comments.length > 0 && (<div className='ImageComponent-comments-list-comment-thread'>
-                        {comments.map(comment => (
-                            <RecursiveComment key={comment.id} comment={comment} />
-                        ))}
-                    </div>)}
+                    {comments.length > 0 ?
+                        (<div className='ImageComponent-comments-list-comment-thread-outside-div'>
+                            <textarea  
+                                className='ImageComponent-comments-list-comment-thread-textarea'
+                                ref={inputRef}
+                                placeholder='Escribe un opinión o...'
+                            ></textarea>
+                            <button className='ImageComponent-comments-list-comment-thread-submit-button' onClick={()=>handleSubmitResourceComment()}>Enviar</button>
+                            {comments.length > 0 && (<div className='ImageComponent-comments-list-comment-thread'>
+                                {comments.map(comment => (
+                                    <RecursiveComment key={comment.id} comment={comment} />
+                                ))}
+                            </div>)}
+                        </div>)
+                        :
+                        (
+                            <div className='ImageComponent-comments-list-comment-thread-empty'>
+                                <p>Parece que no hay opiniones sobre la imágen... <br /> Tienes algun cambio o sugerencia que agregar?  </p>
+                                <textarea
+                                name='new-comment-textarea'
+                                ref={inputRef}  
+                                className='ImageComponent-comments-list-comment-thread-textarea'
+                                placeholder='Escribe un opinión o...'
+                                ></textarea>
+                                <button className='ImageComponent-comments-list-comment-thread-submit-button' onClick={()=>handleSubmitResourceComment()}>Enviar</button>
+                            </div>
+                        )
+                    }
 
                 </div>
-                }
+                
             </div>
 
             {/* COLLECTIONS POP UP */}

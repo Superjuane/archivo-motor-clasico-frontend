@@ -1,0 +1,111 @@
+*[class^="Footer-"] {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+  .Footer {
+    position: absolute;
+    background: var(--navbar-grey);
+    width: 100%;
+    color: #fff;
+    /* bottom: 0; */
+  }
+  .Footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  .Footer-content h3 {
+    font-size: 2.1rem;
+    font-weight: 500;
+    text-transform: capitalize;
+    line-height: 3rem;
+    margin: 0.8%
+  }
+  .Footer-content p {
+    max-width: 500px;
+    margin: 0;
+    line-height: 28px;
+    font-size: 14px;
+    color: #cacdd2;
+  }
+  .Footer-socials {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* margin: 1rem 0 3rem 0; */
+  }
+  .Footer-socials li {
+    /* margin: 0 10px; */
+  }
+  .Footer-socials a {
+    text-decoration: none;
+    color: #fff;
+    /* border: 1.1px solid white; */
+    padding: 5px;
+  
+    border-radius: 50%;
+  }
+  .Footer-socials a i {
+    font-size: 1.1rem;
+    width: 20px;
+  
+    transition: color 0.4s ease;
+  }
+  .Footer-socials a:hover i {
+    color: aqua;
+  }
+  
+  .Footer-bottom {
+    background: #000;
+    padding: 20px;
+    font-size: 13px;
+    padding-bottom: 40px;
+    text-align: center;
+  }
+  .Footer-bottom p {
+    float: left;
+    font-size: 13px;
+    word-spacing: 2px;
+    text-transform: capitalize;
+  }
+  .Footer-bottom p a {
+    color: #44bae8;
+    font-size: 15px;
+    text-decoration: none;
+  }
+  .Footer-bottom span {
+    text-transform: uppercase;
+    opacity: 0.4;
+    font-weight: 200;
+  }
+  .Footer-menu {
+    float: right;
+  }
+  .Footer-menu ul {
+    display: flex;
+  }
+  .Footer-menu ul li {
+    padding-right: 10px;
+    display: block;
+  }
+  .Footer-menu ul li a {
+    color: #cfd2d6;
+    text-decoration: none;
+  }
+  .Footer-menu ul li a:hover {
+    color: #27bcda;
+  }
+  
+  @media (max-width: 500px) {
+    .Footer-menu ul {
+      display: flex;
+      margin-top: 10px;
+      margin-bottom: 20px;
+    }
+  }
+  
