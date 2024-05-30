@@ -47,6 +47,21 @@ function SearchPage() {
       })
       .catch(error => console.error('Error fetching data:', error));
 
+      fetch('http://localhost:8090/resources/properties/persons', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then (response => response.json())
+    .then (data => {
+      setPersonsOptions(data);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+      setPersonsOptions(['A', 'B', 'C', 'D'])
+    });
+
   }, []);
 
   const handleMagazineNameIsSet = (value) => {
@@ -91,6 +106,12 @@ function SearchPage() {
     if(magazineNumber !== ''){
         fullUrl += "number="+magazineNumber+"&"
     }
+    Array.from({ length: personsActiveSlots }, (_, index) => {
+      if(persons[index] !== '' && persons[index] !== null){
+        fullUrl += "persons="+persons[index]+"&"
+      }
+    });
+
     if(fullUrl.endsWith("&")){
         fullUrl = fullUrl.slice(0, -1)
     }
@@ -150,6 +171,29 @@ function SearchPage() {
     // </div>)
   }
 
+  const handleNewPersonAdded = (value, index) => {
+    let newPersons = persons;
+    console.log("persons state:")
+    console.log(newPersons);
+
+    if(value === null){
+      newPersons.splice(index, 1);
+    }
+
+    else if(value === '-- selecciona una persona --'){
+      newPersons[index] = '';
+    }
+
+    else{ 
+      newPersons[index] = value;
+    }
+
+    console.log("final state");
+    console.log(newPersons);
+
+    setPersons(newPersons);
+  }
+
   return (
     <div className='SearchPage-outside-container'>
     <h1>Búsqueda de recursos</h1>
@@ -189,7 +233,7 @@ function SearchPage() {
           Competición:
         </label>
         <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>setCompetition(e.target.value)}>
-        <option selected value=""> -- select an option -- </option>
+        <option selected value=""> -- selecciona una competición -- </option>
           {competitionsOptions && competitionsOptions.map((option, index) => {
             return <option key={"competition-option-"+index} value= {option} > {option} </option>
           })}
@@ -213,7 +257,7 @@ function SearchPage() {
           Número de revista:
         </label>
         <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>setMagazineNumber(e.target.value)}>
-        <option selected value=""> -- select an option -- </option>
+        <option selected value=""> -- selecciona una persona -- </option>
           {magazineNumberOptions && magazineNumberOptions.map((option, index) => {
             return <option key={"competition-option-"+index} value= {option} > {option} </option>
           })}
@@ -227,18 +271,22 @@ function SearchPage() {
         <label className='SearchPage-form-label'>
           Persona:
         </label>
-        <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>setPersons(e.target.value, 0)}>
-        <option selected value=""> -- select an option -- </option>
+        <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>handleNewPersonAdded(e.target.value, 0)}>
+        <option selected value=""> -- selecciona una persona -- </option>
           {personsOptions && personsOptions.map((option, index) => {
             return <option key={"competition-option-"+index} value= {option} > {option} </option>
           })}
         </select>
       </div>
 
-      {Array.from({ length: personsActiveSlots }, (_, index) => (
+      {Array.from({ length: personsActiveSlots-1 }, (_, index) => (
           <div className='SearchPage-form-element-row'>
-            {index === personsActiveSlots-1 ? 
-            (<button className='SearchPage-form-date-erease' onClick={()=>{setPersonsActiveSlots(personsActiveSlots-1)}}>
+            {index === personsActiveSlots-2 ? 
+            (<button className='SearchPage-form-date-erease' 
+                onClick={()=>{
+                  setPersonsActiveSlots(personsActiveSlots-1);
+                  handleNewPersonAdded(null, index+1)
+                }}>
                 <FontAwesomeIcon icon={faCircleMinus} />
             </button>)
             :
@@ -249,8 +297,8 @@ function SearchPage() {
             <label className='SearchPage-form-label'>
             Persona:
             </label>
-            <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>setPersons(e.target.value, 0)}>
-            <option selected value=""> -- select an option -- </option>
+            <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>handleNewPersonAdded(e.target.value, index+1)}>
+            <option selected value=""> -- selecciona una persona -- </option>
               {personsOptions && personsOptions.map((option, index) => {
                 return <option key={"competition-option-"+index} value= {option} > {option} </option>
               })}
