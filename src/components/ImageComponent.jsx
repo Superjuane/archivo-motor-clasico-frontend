@@ -1,10 +1,59 @@
 import {React, useState, useEffect, useRef } from 'react';
 import {Link} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faSpinner, faCheck, faCircleXmark, faPlusSquare, faMinusSquare, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faSpinner, faCheck, faCircleXmark, faPlusSquare, faMinusSquare, faTrash, faSquareXmark } from '@fortawesome/free-solid-svg-icons'
 // import Tooltip from '@mui/material/Tooltip';
 import './ImageComponent.css';
 
+
+const NewProperty = (property) => {
+    console.log("NewProperty")
+    console.log(property.property)
+    if(Object.hasOwn(property.property, 'Competition')){
+        return (
+            <div className='ImageComponent-text-container-property'>
+                <p className='ImageComponent-text-container-property-name'> Competición: {property.property.Competition.name}</p>
+            </div>
+        );
+    }
+    else if(Object.hasOwn(property.property, 'Date')){
+        let formatedDate = new Date(property.property.Date.date);
+        return (
+        <div className='ImageComponent-text-container-property'>
+            <p className='ImageComponent-text-container-property-name'> Fecha: {formatedDate.getDate()}/{formatedDate.getMonth() + 1}/{formatedDate.getFullYear()}</p>
+        </div>
+        );
+    }
+    else if(Object.hasOwn(property.property, 'MagazineIssue')){
+        return (
+        <div className='ImageComponent-text-container-property'>
+            <p className='ImageComponent-text-container-property-name'> Número de revista: {property.property.MagazineIssue.name}</p>
+        </div>
+        );
+    }
+
+    else if(Object.hasOwn(property.property, 'Persons')){
+        let personsComponent = [];
+        
+        property.property.Persons.persons.map((p, index) => {
+            console.log("p")
+            console.log(p.Person.name)
+            let personComponent = (
+                <div className='ImageComponent-text-container-property'>
+                    <p className='ImageComponent-text-container-property-name'> Persona: {p.Person.name}</p>
+                </div>
+            );
+            personsComponent.push(personComponent);
+
+            })
+        
+        return personsComponent;
+    }
+
+    return (
+        <div></div>
+    );
+}
 
 const RecursiveComment = (comment) => {
     const username = localStorage.getItem('username');
@@ -279,7 +328,7 @@ const RecursiveComment = (comment) => {
                     ))}
                 </div>)}
 
-                { comments.length == 0 && (<button className='ImageComponent-comments-list-replies-show-more-replies-button' onClick={()=>renderMoreSubcoments()}> show more replies </button>)}
+                { comments.length == 0 && (<button className='ImageComponent-comments-list-replies-show-more-replies-button' onClick={()=>renderMoreSubcoments()}> mostras más comentarios </button>)}
             </div>
         </div>
     );
@@ -296,6 +345,7 @@ const ImageComponent = (id) => {
     const [title, setTitle] = useState(null);
     const [description, setDescription] = useState(null);
     const [creator, setCreator] = useState(null);
+    const [properties, setProperties] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [errorText, setErrorText] = useState(null);
@@ -391,6 +441,10 @@ const ImageComponent = (id) => {
                     setTitle(data.title);
                     setDescription(data.description);
                     setCreator(data.creator);
+                    setProperties(data.properties);
+                    data.properties.forEach((property, index) => {
+                        console.log(property)
+                    })
             }).catch((err)=>{
                 console.log(err.message);
                 setError("Error!")})
@@ -467,8 +521,13 @@ const ImageComponent = (id) => {
         </div>)
     }
 
-    console.log("-------- comments before rendering ---------")
-    console.log(comments)
+
+    console.log("properties: ")
+    console.log(properties)
+    properties.forEach((property, index) => {
+        console.log(property)
+    })
+    console.log("-----------------")
 
     return (
         <div>
@@ -491,6 +550,13 @@ const ImageComponent = (id) => {
                                 </div>
                             </div>
                             <p className='ImageComponent-p'>{description}</p>
+                            {properties.length > 0 && (
+                                <div className=''>
+                                    {properties.map((property, index) => (
+                                        <NewProperty key={index} property={property}/>
+                                    ))}
+                                </div>
+                            )}
                             <p className='ImageComponent-p'>Creator: {creator}</p>
                         </div>
                     </div>    
@@ -555,7 +621,7 @@ const ImageComponent = (id) => {
                             <div className='ImageComponent-collections-popup-title-row'>
                                 <h2 className='ImageComponent-collections-popup-h2'>Agregar a colección</h2>
                                 <button className='ImageComponent-collections-popup-close-button' onClick={()=>setIsCollectionsPopupOpen(false)}>
-                                    <FontAwesomeIcon icon={faCircleXmark} />
+                                    <FontAwesomeIcon icon={faSquareXmark} />
                                 </button>
                             </div>
                             <div className='ImageComponent-collections-popup-collections'>

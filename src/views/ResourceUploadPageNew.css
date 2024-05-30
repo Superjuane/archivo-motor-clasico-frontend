@@ -1,30 +1,33 @@
-.ResourceEdit-container {
+.ResourceUploadPageNew-container {
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
-  min-height: 100vh;
 }
 
-.ResourceEdit-recurso-guardado-row {
+.ResourceUploadPageNew-error{
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 3%;
+  color: red;
+  background-color: var(--background-lighter-grey);
+  font-weight: bold;
+  font-size: medium;
+  padding: 2%;
 }
 
-.ResourceEdit-content {
+.ResourceUploadPageNew-content {
   display: flex;
   justify-content: space-between;
 }
 
-.ResourceEdit-image-div{
+.ResourceUploadPageNew-image-div{
   display: flex;
   flex-direction: column;
   text-align: center;
 }
 
-.ResourceEdit-image-delete-button{
+.ResourceUploadPageNew-image-delete-button{
   display: flex;
   margin-top: 1.5%;
   max-width: min-content;
@@ -46,32 +49,31 @@
 }
 
 
-.ResourceEdit-image-delete-button:focus {
+.ResourceUploadPageNew-image-delete-button:focus {
   box-shadow: inset 0px 0.8px 0px -0.25px rgba(255, 255, 255, 0.2), 0px 0.5px 1.5px rgba(54, 122, 246, 0.25), 0px 0px 0px 3.5px rgba(58, 108, 217, 0.5);
   outline: 0;
 }
 
 
-.ResourceEdit-image-preview {
+.ResourceUploadPageNew-image-preview {
   max-width: 300px;
   height: auto;
   margin-right: 20px;
   transition: transform .2s; /* Animation */
 }
 
-.ResourceEdit-image-preview:hover{
+.ResourceUploadPageNew-image-preview:hover {
   transition-delay:0.4s;
   transform: scale(2.5) translateX(50%);
-  max-height: 100%;
 }
 
-.ResourceEdit-form {
+.ResourceUploadPageNew-form {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
-.ResourceEdit-MagazineIssue-outer-input-group {
+.ResourceUploadPageNew-MagazineIssue-outer-input-group {
   padding: 1%;
   padding-right: 4%;
   border-radius: 10px;
@@ -79,25 +81,25 @@
   width: 98%;
 }
 
-.ResourceEdit-MagazineIssue-outer-input-group h2{
+.ResourceUploadPageNew-MagazineIssue-outer-input-group h2{
   margin: 0;
   margin-top: 1%;
   margin-bottom: 1%;
 }
 
-.ResourceEdit-Persons-header-row {
+.ResourceUploadPageNew-Persons-header-row {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   margin-top: 3%;
 }
 
-.ResourceEdit-Persons-header-row-button {
+.ResourceUploadPageNew-Persons-header-row-button {
   background: transparent;
   font-size: xx-large;
 }
 
-.ResourceEdit-Persons-element-outside-div{
+.ResourceUploadPageNew-Persons-element-outside-div{
   display: flex;
   flex-direction: row;
   align-items: start;
@@ -105,19 +107,19 @@
   margin-top: 3%;
 }
 
-.ResourceEdit-Persons-element-remove-button{
+.ResourceUploadPageNew-Persons-element-remove-button{
   background: transparent;
   font-size: x-large;
 }
 
-.ResourceEdit-Persons-element-div{
+.ResourceUploadPageNew-Persons-element-div{
   display: flex;
   flex-direction: column;
   width: 100%;
   margin-top: 1%;
 }
 
-.ResourceEdit-Persons-element-input {
+.ResourceUploadPageNew-Persons-element-input {
   padding: 8px;
     width: 100%;
     border: 1px solid #ccc;
@@ -125,7 +127,7 @@
     margin-top: 1%;
 }
 
-.ResourceEdit-Persons-outer-input-group {
+.ResourceUploadPageNew-Persons-outer-input-group {
   margin-top: 3%;
   padding: 1%;
   padding-right: 4%;
@@ -134,22 +136,22 @@
   width: 98%;
 }
 
-.ResourceEdit-Persons-outer-input-group h2{
+.ResourceUploadPageNew-Persons-outer-input-group h2{
   margin: 0;
   margin-top: 1%;
   margin-bottom: 1%;
 }
 
-.ResourceEdit-input-group {
+.ResourceUploadPageNew-input-group {
   margin-bottom: 15px;
   width: 100%;
 }
 
-.ResourceEdit-input-group label {
+.ResourceUploadPageNew-input-group label {
   margin-bottom: 2%;
 }
 
-.ResourceEdit-input-group input {
+.ResourceUploadPageNew-input-group input {
   padding: 8px;
   width: 100%;
   border: 1px solid #ccc;
@@ -157,7 +159,7 @@
   margin-top: 1%;
 }
 
-.ResourceEdit-input-group textarea {
+.ResourceUploadPageNew-input-group textarea {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -165,14 +167,14 @@
   height: 120px;
 }
 
-.ResourceEdit-button-outside-container-column {
+.ResourceUploadPageNew-button-outside-container-column {
   display: flex;
   margin-top: 20px;
   flex-direction: column;
   align-items: stretch;
 }
 
-.ResourceEdit-button-outside-container-row {
+.ResourceUploadPageNew-button-outside-container-row {
   display: flex;
   margin-top: 20px;
   flex-direction: row;
@@ -180,17 +182,17 @@
 
 }
 
-#ResourceEdit-edit-button {
+#ResourceUploadPageNew-edit-button {
 
 }
 
 
-.ResourceEdit-navigate-to-resource-row {
+.ResourceUploadPageNew-navigate-to-resource-row {
     display: flex;
     justify-content: flex-end;
 }
 
-/* .ResourceEdit-navigate-to-resource-button {
+/* .ResourceUploadPageNew-navigate-to-resource-button {
     padding: 10px 20px;
     background-color: #007bff;
     color: white;
@@ -199,12 +201,12 @@
     cursor: pointer;
 }
 
-.ResourceEdit-navigate-to-resource-button:hover {
+.ResourceUploadPageNew-navigate-to-resource-button:hover {
     background-color: #0056b3;
 } */
 
 /* CSS */
-.ResourceEdit-button {
+.ResourceUploadPageNew-button {
   align-self: center;
   background-color: #949597;
   background-image: none;
@@ -235,26 +237,26 @@
   touch-action: manipulation;
 }
 
-.ResourceEdit-button:hover {
+.ResourceUploadPageNew-button:hover {
   background-color: var(--button-red);
   color: white;
   box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
   transform: translate3d(0, 2px, 0);
 }
 
-.ResourceEdit-button:focus {
+.ResourceUploadPageNew-button:focus {
   box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
   background-color: #b6b7ba;
   color:white
 }
 
-#ResourceEdit-delete-button-id{
+#ResourceUploadPageNew-delete-button-id{
   margin-top: 3%;
   font-size: x-small;
   width: fit-content;
 }
 
-.ResourceEdit-delete-confirmation-popup {
+.ResourceUploadPageNew-delete-confirmation-popup {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -267,22 +269,22 @@
   z-index: 9999;
 }
 
-.ResourceEdit-delete-confirmation-popup-row {
+.ResourceUploadPageNew-delete-confirmation-popup-row {
   display: flex;
   justify-content: space-between;
 }
 
-.ResourceEdit-delete-confirmation-popup p {
+.ResourceUploadPageNew-delete-confirmation-popup p {
   margin-bottom: 10px;
 }
 
-#ResourceEdit-delete-popup-rejection-button:hover{
+#ResourceUploadPageNew-delete-popup-rejection-button:hover{
   background-color: #797878;
   color: white;
 }
 
 
-.ResourceEdit-NewProperty-popup-fullscreen {
+.ResourceUploadPageNew-NewProperty-popup-fullscreen {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -292,7 +294,7 @@
   z-index: 9999;
 }
 
-.ResourceEdit-NewProperty-popup {
+.ResourceUploadPageNew-NewProperty-popup {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -306,22 +308,22 @@
   color: white;
 }
 
-.ResourceEdit-NewProperty-popup-form {
+.ResourceUploadPageNew-NewProperty-popup-form {
   display: flex;
   flex-direction: column;
 }
 
-.ResourceEdit-NewProperty-popup-form-label {
+.ResourceUploadPageNew-NewProperty-popup-form-label {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
 }
 
-.ResourceEdit-NewProperty-popup-form-input {
+.ResourceUploadPageNew-NewProperty-popup-form-input {
   margin-right: 10px;
 }
 
-.ResourceEdit-NewProperty-popup h2 {
+.ResourceUploadPageNew-NewProperty-popup h2 {
   margin-bottom: 20px;
 }
 

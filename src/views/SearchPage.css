@@ -1,0 +1,57 @@
+
+.SearchPage-outside-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  
+  .SearchPage-form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .SearchPage-form-element-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .SearchPage-form-element-row-dates {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    gap: 3%
+  }
+
+  .SearchPage-form-element-row-inside {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 50%;
+  }
+  
+  .SearchPage-form-label {
+    width: 120px;
+  }
+  
+  .SearchPage-form-input-text {
+    flex: 1;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  .SearchPage-form-date-erease {
+    background-color: transparent;
+    border: none;
+    font-size: medium;
+  }
+
+  .SearchPage-form-date-erease-invisible {
+    background-color: transparent;
+    border: none;
+    font-size: medium;
+    color: transparent;
+    cursor:default;
+  }

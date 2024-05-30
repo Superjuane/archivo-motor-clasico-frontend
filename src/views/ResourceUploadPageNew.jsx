@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {useParams, useNavigate}  from 'react-router-dom';
-import './ResourceEditPage.css';
-import DynamicProperty from 'components/DynamicProperty';
+import './ResourceUploadPageNew.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinusCircle, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 
@@ -11,28 +10,23 @@ import { faMinusCircle, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 
 
 
-function ResourceEditPage() {
+function ResourceUploadPageNew() {
   const navigate = useNavigate();
 
-  let { id } = useParams();
   const [dataUploadedSuccessfully, setDataUploadedSuccessfully] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [files, setFiles] = useState([]);
+  const [error, setError] = useState(null);
+
   const [magazineIssueNameSuggestions, setMagazineIssueNameSuggestions] = useState([]);
   const [personNameSuggestions, setPersonNameSuggestions] = useState([]);
   const [personNameSuggestionsIndex, setPersonNameSuggestionsIndex] = useState(0);
-
-  const [resource, setResource] = useState({
-    title: '',
-    description: '',
-    image: '',
-    properties: [],
-    creator: '',
-  });
 
   const [activatedProperties, setActivatedProperties] = useState({
     Date: false,
     Competition: false,
     MagazineIssue: false,
-    Persons: 0
+    Persons: false
   });
 
   const [formData, setFormData] = useState({
@@ -41,87 +35,49 @@ function ResourceEditPage() {
     properties: {},
   });
 
-
-
-  const resourceToFormData = (resource) => { //formats Resource to Form (ONLY ONCE)
-    let result = {
-      title: resource.title,
-      description: resource.description,
-      properties: {},
-    }
-
-    resource.properties.forEach(p => {
-      if(p.Date){
-        console.log(p.Date.date.split('T')[0]);
-        result.properties.Date = p.Date.date.split('T')[0];
-      }
-      else if(p.Competition){
-        result.properties.Competition = p.Competition.name;
-      }
-      else if(p.MagazineIssue){
-        result.properties.MagazineIssue = p.MagazineIssue;
-      }
-      else if(p.Persons){
-        result.properties.Persons = p.Persons.persons;
-      }
-    });
-    return result;
-  };
-
-  const fromResourceToActivateProperties = (resource) => { //activates properties in form
-    let result = {
-      Date: false,
-      Competition: false,
-      MagazineIssue: false,
-      Persons: 0
-    }
-
-    resource.properties.forEach((p, index) => {
-      if(p.Date){
-        result.Date = true;
-      }
-      else if(p.Competition){
-        result.Competition = true;
-      }
-      else if (p.MagazineIssue){
-        result.MagazineIssue = true;
-      }
-      else if (p.Persons){
-        let personsArray = p.Persons.persons;
-        result.Persons = personsArray.length;
-      }
-    });
-    return result;
+  function getBase64(file) {
+    //https://stackoverflow.com/questions/36280818/how-to-convert-file-to-base64-in-javascript
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+        setFiles({"image":reader.result, "text":file.name});
+    };
+    reader.onerror = function (error) {
+        setFiles('Error: ' + error);
+    };
   }
 
   const formatFormData = (formData) => { //formats Form to Resource
     let result = {}
     result.title = formData.title;
     result.description = formData.description;
+    result.image = files.image;
 
     Object.keys(formData.properties).map((p, index) => {
-      console.log(p)
       if(p === 'Date' && formData.properties[p] !== ''){
-        console.log(formData.properties[p])
-        result.date = formData.properties[p]+'T00:00:00Z';
+        if(activatedProperties.Date){
+          result.date = formData.properties[p]+'T00:00:00Z';
+        }
       }
       if(p === 'Competition' && formData.properties[p] !== ''){
-        result.competition = formData.properties[p];
+        if(activatedProperties.Competition){
+          result.competition = formData.properties[p];
+        }
       }
       if(p === 'MagazineIssue' 
           && formData.properties[p] !== '' 
           && formData.properties[p].title !== '' 
           && formData.properties[p].number !== ''){
-            result.magazineIssue = formData.properties[p];
-        delete result.magazineIssue.name;
-        delete result.magazineIssue.country;
+            if(activatedProperties.MagazineIssue){
+              result.magazineIssue = formData.properties[p];
+              delete result.magazineIssue.name;
+              delete result.magazineIssue.country;
+            }
       }
       if(p === 'Persons' 
-          && formData.properties[p].length > 0){
+          && formData.properties[p].length > 0 && activatedProperties.Persons){
         let persons= [];
         formData.properties[p].forEach(person => {
-          console.log("this is person:")
-          console.log(person)
           delete person.Person.alias;
           if(person.Person.name !== ''){
             persons.push(person.Person);
@@ -133,27 +89,9 @@ function ResourceEditPage() {
     return result;
   };
 
-  useEffect(() => { //GET RESOURCE
-    fetch('http://localhost:8090/resources/'+id, {
-        method: 'GET',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Allow-Control-Allow-Origin': '*'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Data fetched successfully:', data);
-      setResource(data);
-      setActivatedProperties(fromResourceToActivateProperties(data));
-      setFormData(resourceToFormData(data));
-      console.log(activatedProperties)
-    })
-    .catch(error => console.error('Error fetching data:', error));
-  }, []);
-
   const handleChange = (e) => { //handles changes in form
     if(dataUploadedSuccessfully) setDataUploadedSuccessfully(false);
+    if(error) setError(null);
     const { name, value } = e.target;
     setFormData(prevState => ({
       ...prevState,
@@ -161,70 +99,42 @@ function ResourceEditPage() {
     }));
   };
 
-  const handleSubmit = () => {//PUT
-    console.log('Submitting...');
+  const handleSubmit = () => {//POST
 
-    fetch('http://localhost:8090/resources/'+id, {
-      method: 'PUT',
+    if(selectedImage === null){
+      setError("Selecciona una imagen primero");
+      return;
+    }
+
+    if(formData.title ===''){
+      setError("Es necesario poner un título al recurso");
+      return;
+    }
+
+    if(formData.title !== '' && selectedImage !== null){
+      setError(null);
+    }
+
+    fetch('http://localhost:8090/resources', {
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Allow-Control-Allow-Origin': '*',
         'Authorization': localStorage.getItem('auth')
       },
       body: JSON.stringify(formatFormData(formData))
     })
-    .then(response => response.json())
+    .then(response => {
+      if(!response.ok) throw response;
+      return response.json()
+    })
     .then(data => {
       console.log('Data updated successfully:', data);
-      setResource(data);
-      setFormData(resourceToFormData(data));
-      window.scrollTo(0, 0);
-      setTimeout(()=>{setDataUploadedSuccessfully(false);},3000)
-      setDataUploadedSuccessfully(true);
+      navigate('/resources/'+data.id);
     })
     .catch(error => console.error('Error updating data:', error))
     .finally(() => {
     });
-  };
-
-  //DELETE
-  const [showDeleteConfirmation, setshowDeleteConfirmation] = useState(false);
-  const handleDelete = () => {
-    setshowDeleteConfirmation(true);
-  };
-  const handleDeleteConfirmation = (confirmed) => {
-    if (confirmed) {
-      fetch('http://localhost:8090/resources/'+id, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': localStorage.getItem('auth')
-        },
-      })
-      .then(response => {
-        console.log(response)
-        if(!response.ok) throw {code: response.status};
-        if(response.status === 204){
-          console.log('Resource deleted successfully');
-          alert('El recurso ha sido eliminado correctamente.');
-          navigate('/resources');
-        }
-      })
-      .catch((error) => {
-        if(error.code === 400){
-          console.log("Bad Request")
-        }
-        if(error.code === 403){
-          console.log("Forbidden")
-        }
-        if(error.code === 409){
-          console.log("Conflict")
-        }
-        console.error('Error:', error);
-      }); 
-    } else {
-        console.log('Deletion canceled.');
-    }
-    setshowDeleteConfirmation(false);
   };
 
 
@@ -235,9 +145,12 @@ function ResourceEditPage() {
     console.log(activatedProperties)
   }
   const handleNewPropertiesSelected = (newProps) => {
-    console.log('New properties selected');
-    console.log(newProps);
-    setActivatedProperties(newProps);
+    // console.log('New properties selected');
+    // console.log(newProps);
+    // for(let prop in newProps){
+    //   console.log(prop);
+    // }
+    // setActivatedProperties(newProps);
     setshowNewPropertyPopup(false);
   }
 
@@ -277,7 +190,7 @@ function ResourceEditPage() {
         formData.properties[label] = '';
       }
       return (
-        <div className='ResourceEdit-input-group'>
+        <div className='ResourceUploadPageNew-input-group'>
           <label>{label === "Date" ? "Fecha" : "Competición"}</label>
           <input
           type={name === "date" ? "date" : "text"}
@@ -385,30 +298,48 @@ function ResourceEditPage() {
 
 return (
 <div>
-  <div className="ResourceEdit-container">
-    <h1>Editar Recurso</h1>
-    {dataUploadedSuccessfully && (<label className='ResourceEdit-recurso-guardado-row'>Recurso guardado 👌</label>)}
+  <div className="ResourceUploadPageNew-container">
+    <h1>Subir recurso</h1>
+    {error && (<p className='ResourceUploadPageNew-error'> {error}</p>)}
     <br />
-    <div className="ResourceEdit-navigate-to-resource-row">
-      <button className='ResourceEdit-button' onClick={handleNewPropertyPopup}>Gestionar propiedades</button>
-      <button 
-        className="ResourceEdit-button" 
-        onClick={(event)=>{
-          window.open('/resources/'+id,'_blank')
-        }}>Navegar al recurso </button>
+    <div className="ResourceUploadPageNew-navigate-to-resource-row">
+      <button className='ResourceUploadPageNew-button' onClick={handleNewPropertyPopup}>Gestionar propiedades</button>
     </div>
 
-    <div className="ResourceEdit-content">
-      <div className='ResourceEdit-image-div'>
-        <img
-          className="ResourceEdit-image-preview"
-          src={'data:image/jpeg;base64,'+resource.image}
-          alt="Resource Preview"
-        />
-        <button className="ResourceEdit-button" id='ResourceEdit-delete-button-id' onClick={handleDelete}>Borrar recurso</button>
+    <div className="ResourceUploadPageNew-content">
+      <div className='ResourceUploadPageNew-image-div'>
+        { selectedImage ?
+          (
+            <div>
+              <img
+                className="ResourceUploadPageNew-image-preview"
+                src={URL.createObjectURL(selectedImage)}
+                alt="Resource Preview"
+              />
+              <button
+                    className="UploadImage-button"
+                    onClick={() => {
+                    setSelectedImage(null);
+                    setFiles([null]);
+                }}>Remove</button>
+            </div>
+          )
+          :
+          (<input
+              className="UploadImage-input"
+              type="file"
+              name="myImage"
+              onChange={(event) => {
+                  setSelectedImage(event.target.files[0]);
+                  setFiles([])
+                  getBase64(event.target.files[0]);
+                  
+              }}
+          />)
+        }
       </div>
-      <div className="ResourceEdit-form">
-        <div className="ResourceEdit-input-group">
+      <div className="ResourceUploadPageNew-form">
+        <div className="ResourceUploadPageNew-input-group">
           <label>Título:</label>
           <input
             type="text"
@@ -418,7 +349,7 @@ return (
           />
         </div>
 
-        <div className="ResourceEdit-input-group">
+        <div className="ResourceUploadPageNew-input-group">
           <label>Descripción:</label>
           <textarea
             type="text"
@@ -433,16 +364,16 @@ return (
         {activatedProperties.Competition && competitionComponent}
 
         {activatedProperties.MagazineIssue && (
-          <div className='ResourceEdit-MagazineIssue-outer-input-group'>
+          <div className='ResourceUploadPageNew-MagazineIssue-outer-input-group'>
             <h2> Revista </h2>
-            <div className='ResourceEdit-input-group'>
+            <div className='ResourceUploadPageNew-input-group'>
             <label> Nombre de la revista </label>
             <input
               type="text"
               name= "MagazineIssue-title"
               value={formData.properties.MagazineIssue.title}
               onChange={handleMagazineIssueTitleChange}
-              onBlur={() => {setTimeout(() => setMagazineIssueNameSuggestions([]), 250)}}
+              onBlur={() => {setTimeout(() => setMagazineIssueNameSuggestions([]), 100)}}
             />
             {magazineIssueNameSuggestions.length > 0 && (
               <ul className="suggestions-list">
@@ -457,7 +388,7 @@ return (
               </ul>
             )}
             </div>
-            <div className='ResourceEdit-input-group'>
+            <div className='ResourceUploadPageNew-input-group'>
             <label> Número de la revista </label>
             <input
               type="number"
@@ -476,12 +407,12 @@ return (
           </div>
         )}
 
-        {activatedProperties.Persons > 0 && (
-          <div className='ResourceEdit-Persons-outer-input-group'>
+        {activatedProperties.Persons && (
+          <div className='ResourceUploadPageNew-Persons-outer-input-group'>
             {/* PERSON HEADER */}
-            <div className='ResourceEdit-Persons-header-row'>
+            <div className='ResourceUploadPageNew-Persons-header-row'>
               <h2> Personas </h2>
-              <button className='ResourceEdit-Persons-header-row-button' onClick={()=>{
+              <button className='ResourceUploadPageNew-Persons-header-row-button' onClick={()=>{
                 let newProperties = formData.properties;
                 newProperties.Persons.push ({"Person":{"name": '', "alias": ''}});
                 setFormData(prevState => ({
@@ -496,8 +427,8 @@ return (
             {/* PERSONS LIST */}
             <div>
               {formData.properties.Persons.map((person, index) => (
-                <div key={index} className='ResourceEdit-Persons-element-outside-div'>
-                  <button className='ResourceEdit-Persons-element-remove-button' onClick={()=>{
+                <div key={index} className='ResourceUploadPageNew-Persons-element-outside-div'>
+                  <button className='ResourceUploadPageNew-Persons-element-remove-button' onClick={()=>{
                     let newProperties = formData.properties;
                     newProperties.Persons.splice(index, 1);
                     setFormData(prevState => ({
@@ -507,14 +438,14 @@ return (
                   }}>
                     <FontAwesomeIcon icon={faMinusCircle} />
                   </button>
-                  <div className='ResourceEdit-Persons-element-div'>
+                  <div className='ResourceUploadPageNew-Persons-element-div'>
                     <label>Nombre:</label>
                     <input
                       type="text"
-                      className='ResourceEdit-Persons-element-input'
+                      className='ResourceUploadPageNew-Persons-element-input'
                       value={getPersonValue(person, index)}
                       onChange={(e) => {handlePersonNameChange(e.target.value, index);}}
-                      onBlur={() => {setTimeout(() => setPersonNameSuggestions([]), 250)}}
+                      onBlur={() => {setTimeout(() => setPersonNameSuggestions([]), 100)}}
                     />
                     {personNameSuggestions.length > 0 && index === personNameSuggestionsIndex && (
                       <ul className="suggestions-list">
@@ -535,68 +466,57 @@ return (
           </div>
         )}
         
-        <div className='ResourceEdit-button-outside-container-column'>
-          <div className='ResourceEdit-button-outside-container-row'>
-            <button id='ResourceEdit-edit-button' className='ResourceEdit-button' onClick={handleSubmit}>Guardar recurso</button>
+        <div className='ResourceUploadPageNew-button-outside-container-column'>
+          <div className='ResourceUploadPageNew-button-outside-container-row'>
+            <button id='ResourceUploadPageNew-edit-button' className='ResourceUploadPageNew-button' onClick={handleSubmit}>Guardar recurso</button>
           </div>
+          {dataUploadedSuccessfully && <label>Recurso guardado 👌</label>}
         </div>
       </div>
     </div>
   </div>
-  {showDeleteConfirmation && (
-    <div className='ResourceEdit-NewProperty-popup-fullscreen'>
-      <div className="ResourceEdit-delete-confirmation-popup">
-        <p>Estas seguro de que quieres eliminar este recurso?</p>
-        <p>No lo podrás recuperar !!</p>
-        <div className='ResourceEdit-delete-confirmation-popup-row'>
-          <button className='ResourceEdit-button' onClick={() => handleDeleteConfirmation(true)}>Si</button>
-          <button className='ResourceEdit-button' id='ResourceEdit-delete-popup-rejection-button' onClick={() => handleDeleteConfirmation(false)}>No</button>
-        </div>
-      </div>
-    </div>
-  )}
   {showNewPropertyPopup && (
-    <div className='ResourceEdit-NewProperty-popup-fullscreen'>
-      <div className='ResourceEdit-NewProperty-popup'>
+    <div className='ResourceUploadPageNew-NewProperty-popup-fullscreen'>
+      <div className='ResourceUploadPageNew-NewProperty-popup'>
         <h2>Selecciona las propiedades que quieres agregar...</h2>
-        <form className='ResourceEdit-NewProperty-popup-form' id='ResourceEdit-NewProperty-popup-form'>
-          <label className='ResourceEdit-NewProperty-popup-form-label'>
+        <form className='ResourceUploadPageNew-NewProperty-popup-form' id='ResourceUploadPageNew-NewProperty-popup-form'>
+          <label className='ResourceUploadPageNew-NewProperty-popup-form-label'>
             <input 
-            className='ResourceEdit-NewProperty-popup-form-input' 
+            className='ResourceUploadPageNew-NewProperty-popup-form-input' 
             type="checkbox" 
             name="NewProperty-Form-Date" 
             checked={activatedProperties.Date} 
             onChange={handleCheckboxChange} 
             /> Fecha
           </label>
-          <label className='ResourceEdit-NewProperty-popup-form-label'>
+          <label className='ResourceUploadPageNew-NewProperty-popup-form-label'>
             <input 
-            className='ResourceEdit-NewProperty-popup-form-input' 
+            className='ResourceUploadPageNew-NewProperty-popup-form-input' 
             type="checkbox" 
             name="NewProperty-Form-Competition" 
             checked={activatedProperties.Competition} 
             onChange={handleCheckboxChange}
             /> Competición
           </label>
-          <label className='ResourceEdit-NewProperty-popup-form-label'>
+          <label className='ResourceUploadPageNew-NewProperty-popup-form-label'>
             <input 
-            className='ResourceEdit-NewProperty-popup-form-input' 
+            className='ResourceUploadPageNew-NewProperty-popup-form-input' 
             type="checkbox" 
             name="NewProperty-Form-MagazineIssue" 
             checked={activatedProperties.MagazineIssue} 
             onChange={handleCheckboxChange}
             /> Revista
           </label>
-          <label className='ResourceEdit-NewProperty-popup-form-label'>
+          <label className='ResourceUploadPageNew-NewProperty-popup-form-label'>
             <input 
-            className='ResourceEdit-NewProperty-popup-form-input' 
+            className='ResourceUploadPageNew-NewProperty-popup-form-input' 
             type="checkbox" 
             name="NewProperty-Form-Persons" 
             checked={activatedProperties.Persons} 
             onChange={handleCheckboxChange}
             /> Personas
           </label>
-          <button  className='ResourceEdit-button' type="button" 
+          <button  className='ResourceUploadPageNew-button' type="button" 
             onClick={()=>{
               let newProps ={
                 Date: document.getElementsByName('NewProperty-Form-Date')[0].checked,
@@ -617,4 +537,4 @@ return (
   );
 }
 
-export default ResourceEditPage;
+export default ResourceUploadPageNew;

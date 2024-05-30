@@ -19,6 +19,7 @@ import Navbar from 'components/Navbar';
 import UserPage from 'views/UserPage';
 import CollectionPage from 'views/CollectionPage';
 import Footer from 'components/Footer';
+import ResourceUploadPageNew from './views/ResourceUploadPageNew';
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
 
     console.log(name)
 
-    document.title = tabTitle[name] || "My Site";
+    document.title = /*tabTitle[name]*/"AMC |"+ name.replace('/',' ') || "My Site";
   });
 
   return (
@@ -55,6 +56,7 @@ function App() {
       <Route path="/resources" element={<ResourcesExplorationPage />} />
       <Route path="/collections/:id" element={<CollectionPage />} />
       <Route path="/uploadimage" element={<UploadImage/>}/>
+      <Route path="/uploadresource" element={<ResourceUploadPageNew/>}/>
       <Route path="/search" element={<SearchPage/>}/>
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<UserPage />} />

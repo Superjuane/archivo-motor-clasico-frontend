@@ -132,7 +132,6 @@ function getBase64(file) {
 let titleErrorPlaceholder = missingTitle ? "missing title !!" : "Title";
 let imageErrorPlaceholder = missingImage ? <div style={{"color":"red"}}> IMAGE IS MISSING ! </div> : null;
 
-console.log("COMPETITION SAVED: "+competition);
 return (
     <div className="UploadImage-div">
         <h1 className="UploadImage-h1">Upload new image</h1>

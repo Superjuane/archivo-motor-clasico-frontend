@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import './SearchPage.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle, faCircleMinus, faSquarePlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 
 function SearchPage() {
   
@@ -7,12 +10,20 @@ function SearchPage() {
     headers: { 'Content-Type': 'application/json' }
   };
   const [competitionsOptions, setCompetitionsOptions] = useState([]);
+  const [magazineNameOptions, setMagazineNameOptions] = useState([]);
+  const [magazineNumberOptions, setMagazineNumberOptions] = useState([]);
+  const [personsOptions, setPersonsOptions] = useState([]);
+  const [personsActiveSlots, setPersonsActiveSlots] = useState(1);
 
+  //FORM DATA TO SUBMIT
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [date1, setDate1] = useState(null);
   const [date2, setDate2] = useState(null);
   const [competition, setCompetition] = useState('');
+  const [magazineName, setMagazineName] = useState('');
+  const [magazineNumber, setMagazineNumber] = useState('');
+  const [persons, setPersons] = useState([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -23,18 +34,39 @@ function SearchPage() {
     fetch('http://localhost:8090/resources/properties/competitions', requestOptions)
       .then(response => response.json())
       .then(data => {
-        console.log('Data fetched successfully:', data);
+        console.log('Competitions fetched successfully:', data);
         setCompetitionsOptions(data);
       })
       .catch(error => console.error('Error fetching data:', error));
+
+      fetch('http://localhost:8090/resources/properties/magazines', requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log('MagazineNames fetched successfully:', data);
+        setMagazineNameOptions(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+
   }, []);
+
+  const handleMagazineNameIsSet = (value) => {
+    setMagazineName(value);
+    console.log("magazine is set to: ", value);
+    console.log("fetching magazine numbers");
+    fetch('http://localhost:8090/resources/properties/magazineNumbers?magazine='+value, requestOptions)
+      .then(response => response.json())
+      .then(data => {
+        console.log('MagazineNumbers fetched successfully:', data);
+        setMagazineNumberOptions(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }
 
 
   const handleSubmit = async (e) => {
     setResults([]);
     setLoading(true);
     console.log('Form data:', title, description, date1, date2, competition);
-    e.preventDefault();
     
     let fullUrl = "http://localhost:8090/resources?"
     if(date1){
@@ -52,6 +84,12 @@ function SearchPage() {
     }
     if(description !== ''){
         fullUrl += "description="+description+"&"
+    }
+    if(magazineName !== ''){
+        fullUrl += "magazine="+magazineName+"&"
+    }
+    if(magazineNumber !== ''){
+        fullUrl += "number="+magazineNumber+"&"
     }
     if(fullUrl.endsWith("&")){
         fullUrl = fullUrl.slice(0, -1)
@@ -97,8 +135,8 @@ function SearchPage() {
 
   if(loading === false && error === '' && results.length > 0){
     listImages = results.map((img, index) =>
-     <div key={index}>
-        <p>{index + " -->   " + img.title}</p>
+     <div key={index} style={{borderBottom:'1px solid black'}}>
+        <p>{index + " -->   " + img.text}</p>
         <div>{img.id}</div>
         <img src={img.image} alt='fetched' style={{'maxWidth':'150px'}}></img>
      </div>
@@ -113,56 +151,115 @@ function SearchPage() {
   }
 
   return (
-    <div>
-    <form onSubmit={handleSubmit}>
-      <label>
-        Title:&nbsp;&nbsp;
-        <input type="text" name="title" onChange={(e) => setTitle(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Description:&nbsp;&nbsp;
-        <input type="text" name="description" onChange={(e)=>setTitle(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Date inicio:&nbsp;&nbsp;
-        <input type="date" name="date1" onChange={(e)=>setDate1(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Date fin:&nbsp;&nbsp;
-        <input type="date" name="date2" onChange={(e)=>setDate2(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Competition:&nbsp;&nbsp;
-        <select name="competition" onChange={(e)=>setCompetition(e.target.value)}>
+    <div className='SearchPage-outside-container'>
+    <h1>Búsqueda de recursos</h1>
+    <div /*onSubmit={handleSubmit}*/ className='SearchPage-form'>
+
+      <div className='SearchPage-form-element-row'>
+        <label className='SearchPage-form-label'>
+          Título:
+          </label>
+          <input className='SearchPage-form-input-text' type="text" name="title" onChange={(e) => setTitle(e.target.value)} />
+      </div>
+
+      <div className='SearchPage-form-element-row'>
+          <label className='SearchPage-form-label'>
+            Descripción:
+          </label>
+          <input className='SearchPage-form-input-text' type="text" name="description" onChange={(e)=>setTitle(e.target.value)} />
+      </div>
+
+      <div className='SearchPage-form-element-row-dates'>
+        <div className='SearchPage-form-element-row-inside'>
+          <label className='SearchPage-form-label'>
+            Fecha de inicio:
+          </label>
+          <input className='SearchPage-form-input-text' type="date" name="date1" onChange={(e)=>setDate1(e.target.value)} />
+        </div>
+        <div className='SearchPage-form-element-row-inside'>
+          <label className='SearchPage-form-label'>
+            Fecha de fin:
+          </label>
+          <input className='SearchPage-form-input-text' type="date" name="date2" onChange={(e)=>{setDate2(e.target.value)}} />
+        </div>
+      </div>
+      
+      <div className='SearchPage-form-element-row'>
+        <label className='SearchPage-form-label'>
+          Competición:
+        </label>
+        <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>setCompetition(e.target.value)}>
         <option selected value=""> -- select an option -- </option>
           {competitionsOptions && competitionsOptions.map((option, index) => {
             return <option key={"competition-option-"+index} value= {option} > {option} </option>
           })}
-
         </select>
-      </label>
-      <br />
-      {/* <label>
-        Image (Base64 encoded):
-        <input type="file" accept="image/*" onChange={(e) => {
-          const file = e.target.files[0];
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            setFormData(prevState => ({
-              ...prevState,
-              image: reader.result
-            }));
-          };
-          reader.readAsDataURL(file);
-        }} />
-      </label> */}
-      <br />
-      <button type="submit">Submit</button>
-    </form>
+      </div>
+
+      <div className='SearchPage-form-element-row'>
+        <label className='SearchPage-form-label'>
+          Revista:
+        </label>
+        <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>handleMagazineNameIsSet(e.target.value)}>
+        <option selected value=""> -- selecciona una revista -- </option>
+          {magazineNameOptions && magazineNameOptions.map((option, index) => {
+            return <option key={"competition-option-"+index} value= {option} > {option} </option>
+          })}
+        </select>
+      </div>
+
+      {magazineName && (<div className='SearchPage-form-element-row'>
+        <label className='SearchPage-form-label'>
+          Número de revista:
+        </label>
+        <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>setMagazineNumber(e.target.value)}>
+        <option selected value=""> -- select an option -- </option>
+          {magazineNumberOptions && magazineNumberOptions.map((option, index) => {
+            return <option key={"competition-option-"+index} value= {option} > {option} </option>
+          })}
+        </select>
+      </div>)}
+
+      <div className='SearchPage-form-element-row'>
+        <button className='SearchPage-form-date-erease' onClick={()=>{setPersonsActiveSlots(personsActiveSlots+1)}}>
+            <FontAwesomeIcon icon={faSquarePlus} />
+        </button>
+        <label className='SearchPage-form-label'>
+          Persona:
+        </label>
+        <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>setPersons(e.target.value, 0)}>
+        <option selected value=""> -- select an option -- </option>
+          {personsOptions && personsOptions.map((option, index) => {
+            return <option key={"competition-option-"+index} value= {option} > {option} </option>
+          })}
+        </select>
+      </div>
+
+      {Array.from({ length: personsActiveSlots }, (_, index) => (
+          <div className='SearchPage-form-element-row'>
+            {index === personsActiveSlots-1 ? 
+            (<button className='SearchPage-form-date-erease' onClick={()=>{setPersonsActiveSlots(personsActiveSlots-1)}}>
+                <FontAwesomeIcon icon={faCircleMinus} />
+            </button>)
+            :
+            (<button className='SearchPage-form-date-erease-invisible' disabled>
+                <FontAwesomeIcon icon={faCircleMinus} />
+            </button>)
+            }
+            <label className='SearchPage-form-label'>
+            Persona:
+            </label>
+            <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>setPersons(e.target.value, 0)}>
+            <option selected value=""> -- select an option -- </option>
+              {personsOptions && personsOptions.map((option, index) => {
+                return <option key={"competition-option-"+index} value= {option} > {option} </option>
+              })}
+            </select>
+          </div>
+      ))}
+
+      <button onClick={()=>handleSubmit()}>Submit</button>
+    </div>
       <br />
       {listImages}
     </div>

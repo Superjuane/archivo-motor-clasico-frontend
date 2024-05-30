@@ -52,23 +52,30 @@ if(loggedIn){
         </div>
       </div>
 
-      {isUserDropdownVisible && <div className="Navbar-loged-in-dropdown">
-        <div className="Navbar-loged-in-dropdown-button-div" >
-          <button className="Navbar-loged-in-dropdown-button" onClick={() => navigate("/profile")}>
-            Profile
-          </button>
+      {isUserDropdownVisible && 
+        <div className="Navbar-loged-in-dropdown">
+          <div className="Navbar-loged-in-dropdown-button-div" >
+            <button className="Navbar-loged-in-dropdown-button" onClick={() => navigate("/profile")}>
+              Perfil
+            </button>
+          </div>
+          <div className="Navbar-loged-in-dropdown-button-div" >
+            <button className="Navbar-loged-in-dropdown-button" onClick={() => navigate("/uploadresource")}>
+              Nuevo recurso
+            </button>
+          </div>
+          <div className="Navbar-loged-in-button">
+            <button className="Navbar-loged-in-dropdown-button" onClick={() => {
+              localStorage.removeItem('auth'); 
+              localStorage.removeItem('username');
+              setLoggedIn(false)
+              navigate("/resources")
+            }}>
+              Log out
+            </button>
+          </div>
         </div>
-        <div className="Navbar-loged-in-button">
-          <button className="Navbar-loged-in-dropdown-button" onClick={() => {
-            localStorage.removeItem('auth'); 
-            localStorage.removeItem('username');
-            setLoggedIn(false)
-            navigate("/resources")
-          }}>
-            Log out
-          </button>
-        </div>
-      </div>}
+      }
     </div>
 } else{
   session = 

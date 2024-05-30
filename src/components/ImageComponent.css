@@ -37,7 +37,7 @@
     margin-top: 10px; /* Adjust as needed */
     margin-bottom: 20px; /* Adjust as needed */
     text-align: justify;
-
+    white-space: pre-line;
 }
 
 .ImageComponent-edit-div {
@@ -179,7 +179,7 @@
   background: none;
   font-size: xx-large;
   margin: 0px;
-  padding: 0px;
+  /* padding: 0px; */
 }
 
 .ImageComponent-collections-popup-collections {
