@@ -80,7 +80,7 @@ const handleDeleteResource = (resourceId) => {
 
 
 //RENDER
-if(!collection) return <div>Loading Collection...</div>;
+if(!collection) return <div>Cargando colección...</div>;
 if(!resources) return (
     <div className='CollectionPage-outiside-div'>
         <div className='CollectionPage-header-div'>

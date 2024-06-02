@@ -95,10 +95,10 @@ function SearchPage() {
         fullUrl += "competition="+competition+"&"
     }
     if(title !== ''){
-        fullUrl += "title="+title+"&"
+        fullUrl += "title="+encodeURIComponent(title)+"&"
     }
     if(description !== ''){
-        fullUrl += "description="+description+"&"
+        fullUrl += "description="+encodeURIComponent(description)+"&"
     }
     if(magazineName !== ''){
         fullUrl += "magazine="+magazineName+"&"
@@ -107,7 +107,8 @@ function SearchPage() {
         fullUrl += "number="+magazineNumber+"&"
     }
     Array.from({ length: personsActiveSlots }, (_, index) => {
-      if(persons[index] !== '' && persons[index] !== null){
+      if(persons[index] !== '' && persons[index] !== null && persons[index] !== '-- selecciona una persona --' && persons[index] !== undefined){
+        console.log("person: "+persons[index]);
         fullUrl += "persons="+persons[index]+"&"
       }
     });
@@ -210,7 +211,7 @@ function SearchPage() {
           <label className='SearchPage-form-label'>
             Descripción:
           </label>
-          <input className='SearchPage-form-input-text' type="text" name="description" onChange={(e)=>setTitle(e.target.value)} />
+          <input className='SearchPage-form-input-text' type="text" name="description" onChange={(e)=>setDescription(e.target.value)} />
       </div>
 
       <div className='SearchPage-form-element-row-dates'>

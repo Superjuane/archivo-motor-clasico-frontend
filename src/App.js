@@ -12,6 +12,7 @@ import ResourceEditPage from 'views/ResourceEditPage';
 import ResourcesExplorationPage from './views/ResourcesExplorationPage';
 import UploadImage from './views/UploadImagePage';
 import SearchPage from './views/SearchPage';
+import SearchByImagePage from './views/SearchByImagePage';
 import Login from './views/Login';
 import ForgotPassword from 'views/ForgotPasswordPage';
 import ResetPassword from 'views/ResetPasswordPage';
@@ -58,6 +59,7 @@ function App() {
       <Route path="/uploadimage" element={<UploadImage/>}/>
       <Route path="/uploadresource" element={<ResourceUploadPageNew/>}/>
       <Route path="/search" element={<SearchPage/>}/>
+      <Route path="/searchimage/:id" element={<SearchByImagePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<UserPage />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />

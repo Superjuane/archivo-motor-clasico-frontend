@@ -1,0 +1,145 @@
+.SearchByImagePage-outside-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    min-height: 100vh;
+    padding-bottom: 5%;
+}
+
+.SearchByImagePage-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    gap: 1%;
+}
+
+.SearchByImagePage-header h1 {
+    margin: 0;
+    padding: 0;
+    font-size: large;
+    color: white;
+}
+
+.SearchByImagePage-header a{
+    font-size: large;
+    color: white;
+}
+
+.SearchByImagePage-body-outside {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+
+}
+
+.SearchByImagePage-body {
+    margin-left: 5%;
+    margin-right: 2%;
+    margin-top: 2%;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(40vh, 0.2fr));
+    gap: 1%;
+}
+
+.SearchByImagePage-body-element {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40vh;
+    border-radius: 10px;
+}
+
+.SearchByImagePage-body-element:hover {
+    background:grey;
+    opacity:0.5;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    z-index:100;
+}
+
+.SearchByImagePage-body-element h2{
+    color: white;
+    font-size: medium;
+    text-align: center;
+    
+}
+
+.SearchByImagePage-body-element img{
+    max-width: 70%;
+    max-height: 70%;
+}
+
+.SearchByImagePage-body-no-similars {
+    width: 100%;
+    height: 35vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.SearchByImagePage-body-lessSimilar{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    width: 100%;
+    border-top: 2px solid var(--backgound-dark-grey);
+    margin-top: 2%;
+}
+
+.SearchByImagePage-body-lessSimilar-grid {
+    padding-top: 2%;
+    margin-left: 5%;
+    margin-right: 2%;
+
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(20vh, 0.2fr));
+    gap: 1%;
+}
+
+.SearchByImagePage-body-element-lessSimilar  {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 20vh;
+    border-radius: 10px;
+    padding-bottom: 10%;
+}
+
+.SearchByImagePage-body-element-lessSimilar:hover {
+    background:grey;
+    opacity:0.5;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    z-index:100;
+}
+
+.SearchByImagePage-body-lessSimilar h1{
+    color: white;
+    font-size: medium;
+    text-align: center;
+    margin-top: 1%;
+}
+
+.SearchByImagePage-body-element-lessSimilar  h2{
+    color: white;
+    font-size: medium;
+    text-align: center;
+    
+}
+
+.SearchByImagePage-body-element-lessSimilar  img{
+    max-width: 70%;
+    max-height: 70%;
+}

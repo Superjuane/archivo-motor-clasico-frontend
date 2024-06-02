@@ -16,6 +16,7 @@ function ResourceEditPage() {
 
   let { id } = useParams();
   const [dataUploadedSuccessfully, setDataUploadedSuccessfully] = useState(false);
+  const [competitionSuggestions, setCompetitionSuggestions] = useState([]);
   const [magazineIssueNameSuggestions, setMagazineIssueNameSuggestions] = useState([]);
   const [personNameSuggestions, setPersonNameSuggestions] = useState([]);
   const [personNameSuggestionsIndex, setPersonNameSuggestionsIndex] = useState(0);
@@ -249,7 +250,10 @@ function ResourceEditPage() {
 
     if(formData.properties[nameSplit] === undefined){
       console.log('Adding property to form data');
-      let newProperties = formData.properties;  
+      let newProperties = formData.properties;
+      if(nameSplit === 'Competition'){
+        newProperties.Competition = ''; 
+      }
       if(nameSplit === 'MagazineIssue'){
         newProperties.MagazineIssue = {"title": '', "number": ''};
       }
@@ -298,8 +302,6 @@ function ResourceEditPage() {
   }
 
   let dateComponent = propertyComponent("Date", "date");
-  let competitionComponent = propertyComponent("Competition", "name");
-
 
   //MAGAZINE ISSUES
   const handleMagazineIssueTitleChange = (e) => {
@@ -337,6 +339,45 @@ function ResourceEditPage() {
       "properties": newProperties
     }));
     setMagazineIssueNameSuggestions([]);
+  }
+
+  const handleCompetitionChange = (e) => {
+    console.log('Competition change')
+    console.log(e)
+    console.log(formData)
+    const value = e.target.value;
+
+    let newProperties = formData.properties;
+    newProperties.Competition = value;
+    setFormData(prevState => ({
+      ...prevState,
+      "properties": newProperties
+    }));
+
+    // if (value.length > 0) {
+      fetch('http://localhost:8090/resources/properties/competitions?competition='+value, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then (response => response.json())
+      .then (data => {
+        setCompetitionSuggestions(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+    // }
+  }
+
+  const handleCompetitionSuggestionClick = (suggestion) => {
+    console.log('Suggestion clicked:', suggestion);
+    let newProperties = formData.properties;
+    newProperties.Competition = suggestion;
+    setFormData(prevState => ({
+      ...prevState,
+      "properties": newProperties
+    }));
+    setCompetitionSuggestions([]);
   }
 
   //PERSONS
@@ -430,7 +471,33 @@ return (
 
         {activatedProperties.Date ? dateComponent :null}
 
-        {activatedProperties.Competition && competitionComponent}
+        {activatedProperties.Competition && (
+          <div>
+              <div className='ResourceEdit-input-group'>
+                <label>Competición</label>
+                <input
+                type="text"
+                name= "Competition"
+                value={formData.properties.Competition}
+                autoComplete='off'
+                onChange={handleCompetitionChange}
+                onBlur={() => {setTimeout(() => setCompetitionSuggestions([]), 250)}}
+              />
+              </div>
+              {competitionSuggestions.length > 0 && (
+                <ul className="suggestions-list">
+                  {competitionSuggestions.map((suggestion, index) => (
+                    <li
+                      key={index}
+                      onClick={()=>handleCompetitionSuggestionClick(suggestion)}
+                    >
+                      {suggestion}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+        )}
 
         {activatedProperties.MagazineIssue && (
           <div className='ResourceEdit-MagazineIssue-outer-input-group'>

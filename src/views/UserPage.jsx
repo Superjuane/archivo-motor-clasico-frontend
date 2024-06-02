@@ -141,9 +141,9 @@ const UserPage = () => {
             </img>
           </div>
           <div className='UserPage-user-info'>
-            <p className='UserPage-user-info-username'>@{userData ? userData.username : 'Loading...'}</p>
-            <p className='UserPage-user-info-email'> {userData ? userData.email : 'Loading...'}</p>
-            <p className='UserPage-user-info-role'>Role: {userData ? userData.role : 'Loading...'}</p>
+            <p className='UserPage-user-info-username'>@{userData ? userData.username : 'Cargando...'}</p>
+            <p className='UserPage-user-info-email'> {userData ? userData.email : 'Cargando...'}</p>
+            <p className='UserPage-user-info-role'>Role: {userData ? userData.role : 'Cargando...'}</p>
           </div>
         </div>
 
@@ -166,7 +166,7 @@ const UserPage = () => {
               ))}
             </div>
           ) : (
-            <p>Loading collections...</p>
+            <p>Cargando colección...</p>
           )}
         </div>
 
@@ -184,7 +184,7 @@ const UserPage = () => {
               ))}
             </div>
           ) : (
-            <p>Loading resources...</p>
+            <p>Cargando recursos...</p>
           )}
         </div>
       </div>

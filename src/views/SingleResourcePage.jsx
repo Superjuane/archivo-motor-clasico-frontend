@@ -17,7 +17,7 @@ const SingleResourcePage = () => {
 
 return (
     <div className="App">
-            <div className="tweet-container">
+            <div className="tweet-container" style={{"min-height":"100vh"}}>
                 <ImageComponent id={id} ></ImageComponent>
             </div>
         </div>

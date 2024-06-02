@@ -1,7 +1,7 @@
 import {React, useState, useEffect, useRef } from 'react';
-import {Link} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faSpinner, faCheck, faCircleXmark, faPlusSquare, faMinusSquare, faTrash, faSquareXmark } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faSpinner, faCheck, faCircleXmark, faPlusSquare, faMinusSquare, faTrash, faSquareXmark, faSearch } from '@fortawesome/free-solid-svg-icons'
 // import Tooltip from '@mui/material/Tooltip';
 import './ImageComponent.css';
 
@@ -339,6 +339,7 @@ const ImageComponent = (id) => {
     const URL = 'http://localhost:8090';
     const username = localStorage.getItem('username');
     const inputRef = useRef();
+    const nagivate = useNavigate();
 
 
     const [image, setImage] = useState(null);
@@ -503,11 +504,11 @@ const ImageComponent = (id) => {
     };
 
     if (loading) {
-        return <p>Loading...</p>;
+        return <p>Cargando...</p>;
     }
 
     if (error) {
-        return <p>Error!: {error}</p>;
+        return <p>{error}</p>;
     }
 
     let edit = null;
@@ -535,6 +536,9 @@ const ImageComponent = (id) => {
                 <div className='ImageComponent-resource-div'>
                     {edit}
                     <div className='ImageComponent-image-background'>
+                        <button title='Buscar recursos similares' className='ImageComponent-image-search-button' onClick={()=>{window.open('/searchImage/'+id.id,'_blank')}}>
+                            <FontAwesomeIcon icon={faSearch}/>
+                        </button>
                         <div className='ImageComponent-image-container'>
                                 <img className='ImageComponent-image' src={image} alt="Fetched " />
                         </div>
@@ -620,7 +624,7 @@ const ImageComponent = (id) => {
                         <div className='ImageComponent-collections-popup-inside'>
                             <div className='ImageComponent-collections-popup-title-row'>
                                 <h2 className='ImageComponent-collections-popup-h2'>Agregar a colección</h2>
-                                <button className='ImageComponent-collections-popup-close-button' onClick={()=>setIsCollectionsPopupOpen(false)}>
+                                <button title='Cerrar' className='ImageComponent-collections-popup-close-button' onClick={()=>setIsCollectionsPopupOpen(false)}>
                                     <FontAwesomeIcon icon={faSquareXmark} />
                                 </button>
                             </div>
@@ -633,7 +637,7 @@ const ImageComponent = (id) => {
                                             </div>
                                             <div className='ImageComponent-collections-popup-element-button'>
                                                 {collectionsIdsState[collection.id] === 1 ?
-                                                    <button className='ImageComponent-collections-popup-element-button-button' >
+                                                    <button title='Agregar a colección' className='ImageComponent-collections-popup-element-button-button' >
                                                         <FontAwesomeIcon icon={faCheck} />
                                                     </button> 
 
@@ -642,7 +646,7 @@ const ImageComponent = (id) => {
                                                         <FontAwesomeIcon icon={faSpinner} />
                                                     </button>
                                                 :
-                                                    <button className='ImageComponent-collections-popup-element-button-button' onClick={()=>handleAddToCollection(collection.id)}>
+                                                    <button title='Recurso ya agregado' className='ImageComponent-collections-popup-element-button-button' onClick={()=>handleAddToCollection(collection.id)}>
                                                         <FontAwesomeIcon icon={faPlus} />
                                                     </button>
                                                 }

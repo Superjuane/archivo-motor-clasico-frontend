@@ -38,11 +38,11 @@ const DropdownMenu = () => {
 }, []);
 
 if (loading) {
-    return <p>Loading...</p>;
+    return <p>Cargando...</p>;
 }
 
 if (error) {
-    return <p>Error!: {error}</p>;
+    return <p>{error}</p>;
 }
 
 const listItems = ids.map((id) =>
