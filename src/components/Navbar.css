@@ -6,6 +6,19 @@
     align-items: center;
 }
 
+.Navbar-left-row{
+    display: flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: center;
+    gap: 2%;
+}
+
+.Navbar-left-row-link {
+    text-align: center;
+    color: var(--text-white);
+}
+
 .Navbar-logo {
 }
 

@@ -54,6 +54,20 @@
     white-space: pre-line;
 }
 
+.ImageComponent-p-creator-link {
+  color: white;
+}
+
+.ImageComponent-properties{
+  margin-left: 1%;
+  padding-left: 1%;
+  border-left: 3px solid var(--backgound-dark-grey);
+}
+
+.ImageComponent-text-container-property {
+  text-align: start;
+}
+
 .ImageComponent-edit-div {
     display: flex;
     justify-content: flex-end;

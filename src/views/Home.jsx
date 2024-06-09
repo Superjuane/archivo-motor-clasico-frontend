@@ -8,10 +8,10 @@ return (
         {/* <Navbar/> */}
         <div className="Home-container-outside"> 
             <div className="Home-container">
-                <a href="/resources" className="box">Browse</a>
-                <a href="/resources/6fafed5e-c64d-42e3-8666-dc6f997f88d1" className="box">example</a>
-                <a href="/search" className="box">Search</a>
-                <a href="/uploadresource" className="box">Upload</a>
+                <a href="/resources" className="box">Navegar</a>
+                <a href="/resources/a9223bcf-ee5e-4d92-aa4a-47ed1f25ef80" className="box">Ejemplo</a>
+                <a href="/search" className="box">Realizar búsqueda</a>
+                <a href="/upload" className="box">Subir recurso nuevo</a>
             </div>
         </div>
     </div>

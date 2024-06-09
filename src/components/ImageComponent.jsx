@@ -553,15 +553,15 @@ const ImageComponent = (id) => {
                                     <button className='ImageComponent-open-collections-popup-button' onClick={()=>handleCollectionsPopup()}>Agregar a colección</button>
                                 </div>
                             </div>
+                            <p className='ImageComponent-p'>Subido por: <a className='ImageComponent-p-creator-link' href={'/user/'+creator}>{creator}</a></p>
                             <p className='ImageComponent-p'>{description}</p>
                             {properties.length > 0 && (
-                                <div className=''>
+                                <div className='ImageComponent-properties'>
                                     {properties.map((property, index) => (
                                         <NewProperty key={index} property={property}/>
                                     ))}
                                 </div>
                             )}
-                            <p className='ImageComponent-p'>Creator: {creator}</p>
                         </div>
                     </div>    
                 </div>

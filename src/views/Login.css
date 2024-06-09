@@ -1,4 +1,4 @@
-.mainContainer {
+.Login-mainContainer {
     flex-direction: column;
     display: flex;
     align-items: center;
@@ -6,7 +6,7 @@
     height: 100vh;
   }
   
-  .titleContainer {
+  .Login-titleContainer {
     padding-top: 2%;
     padding-bottom: 2%;
     display: flex;
@@ -17,8 +17,8 @@
     justify-content: center;
   }
   
-  .resultContainer,
-  .historyItem {
+  .Login-resultContainer,
+  .Login-historyItem {
     flex-direction: row;
     display: flex;
     width: 400px;
@@ -26,7 +26,7 @@
     justify-content: space-between;
   }
   
-  .historyContainer {
+  .Login-historyContainer {
     flex-direction: column;
     display: flex;
     height: 200px;
@@ -35,7 +35,7 @@
     justify-content: flex-start;
   }
   
-  .buttonContainer {
+  .Login-buttonContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,19 +43,19 @@
     height: 260px;
   }
   
-  .inputContainer {
+  .Login-inputContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
   }
   
-  .inputContainer > .errorLabel {
+  .Login-inputContainer > .Login-errorLabel {
     color: red;
     font-size: 12px;
   }
   
-  .inputBox {
+  .Login-inputBox {
     height: 48px;
     width: 400px;
     font-size: large;
@@ -64,13 +64,49 @@
     padding-left: 8px;
   }
 
-  .inputButton {
-    height: 48px;
-    width: 400px;
-    font-size: large;
-    border-radius: 8px;
-    border: 1px solid grey;
-    padding-left: 8px;
-    background-color: #007bff;
-    color: white;
+  .Login-inputButton  {
+    align-self: center;
+    background-color: #949597;
+    background-image: none;
+    background-position: 0 90%;
+    background-repeat: repeat no-repeat;
+    background-size: 4px 3px;
+    border-radius: 15px 225px 255px 15px 15px 255px 225px 15px;
+    border-style: solid;
+    border-width: 2px;
+    box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
+    box-sizing: border-box;
+    color: #41403e;
+    cursor: pointer;
+    display: inline-block;
+    font-family: Neucha, sans-serif;
+    font-size: 1rem;
+    line-height: 23px;
+    outline: none;
+    padding: .75rem;
+    text-decoration: none;
+    transition: all 235ms ease-in-out;
+    border-bottom-left-radius: 15px 255px;
+    border-bottom-right-radius: 225px 15px;
+    border-top-left-radius: 255px 15px;
+    border-top-right-radius: 15px 225px;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .Login-inputButton :hover {
+    background-color: var(--button-red);
+    box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
+    transform: translate3d(0, 2px, 0);
+  }
+  
+  .Login-inputButton :focus {
+    box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
+  }
+
+  .Login-forgot-password-link {
+    color: #949597;
+    font-size: medium;
+    text-decoration: none;
   }

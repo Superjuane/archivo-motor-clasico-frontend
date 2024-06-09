@@ -198,6 +198,7 @@ function SearchPage() {
   return (
     <div className='SearchPage-outside-container'>
     <h1>Búsqueda de recursos</h1>
+    <h1 style={{color: "red"}}> Si en título hay comillas " ", buscar sobre GraphDB para resultados exactos.</h1>
     <div /*onSubmit={handleSubmit}*/ className='SearchPage-form'>
 
       <div className='SearchPage-form-element-row'>
@@ -309,8 +310,16 @@ function SearchPage() {
 
       <button onClick={()=>handleSubmit()}>Submit</button>
     </div>
-      <br />
-      {listImages}
+      <div className='SearchPage-results-outside-container'>
+        {results && results.length > 0 && (<div className='SearchPage-results-body'>
+          {results.map((resource) => (
+            <a className='SearchPage-results-body-element' key={resource.id} href={'/resources/'+resource.id}>
+              <h2>{resource.text}</h2>
+              <img src={resource.image} alt={resource.text} />
+            </a>
+          ))}
+        </div>)}
+      </div>
     </div>
   );
 }

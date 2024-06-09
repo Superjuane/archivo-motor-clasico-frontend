@@ -1,20 +1,26 @@
 import React, { useEffect, useState, useRef } from 'react';
 import './UserPage.css';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import CollectionCard from 'components/CollectionCard'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { auth } from 'neo4j-driver-core';
 
 
 const UserPage = () => {
-  const inputRef = useRef();
+  let { user } = useParams();
+  let username = localStorage.getItem('username');
+  console.log('User:', user);
+  console.log('Username:', username);
+  let authorized = username === user;
 
+  const inputRef = useRef();
+  const navigate = useNavigate();
 
   const [userData, setUserData] = useState(null);
   const [collections, setCollections] = useState([]);
   const [resources, setResources] = useState([]);
   const [isNewCollectionsPopupOpen, setIsNewCollectionsPopupOpen] = useState(false);
-  const username = localStorage.getItem('username');
   const URL = 'http://localhost:8090';
 
 
@@ -39,7 +45,10 @@ const UserPage = () => {
   }
 
   useEffect(() => {
-    // Fetch user data
+    if (user !== undefined) {
+      username = user;
+    }
+
     fetch(URL+'/user?name='+username, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
@@ -80,7 +89,7 @@ const UserPage = () => {
       .catch(error => console.error('Error fetching collections:', error));
 
     // Fetch resources data
-    fetch(URL+'/resources?user='+username, {
+    fetch(URL+'/resources/user?user='+username, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' }
     })
@@ -99,6 +108,7 @@ const UserPage = () => {
   const handleSubmitNewCollection = () => {
     let title = inputRef.current.value;
     if(title === '') return;
+    if(!authorized) return;
     console.log(title);
     fetch(URL+'/collections', {
       method: 'POST',
@@ -120,14 +130,18 @@ const UserPage = () => {
       .catch(error => console.error('Error creating collection:', error));
   }
 
-  if(localStorage.getItem('username') === null){
-    return (
-      <div>
-        USER NOT AUTHENTICATED
-        <br></br>
-        <a href="/login">Login</a>
-      </div>
-  )}
+  // if(localStorage.getItem('username') === null){
+  //   return (
+  //     <div className='UserPage'>
+  //       <h1>
+  //         Inicia sesión para ver tu perfil
+  //       </h1>
+  //       <br></br>
+  //       <a href="/login">
+  //         <h2>Log in</h2>
+  //         </a>
+  //     </div>
+  // )}
 
   return (
     <div>
@@ -142,17 +156,17 @@ const UserPage = () => {
           </div>
           <div className='UserPage-user-info'>
             <p className='UserPage-user-info-username'>@{userData ? userData.username : 'Cargando...'}</p>
-            <p className='UserPage-user-info-email'> {userData ? userData.email : 'Cargando...'}</p>
-            <p className='UserPage-user-info-role'>Role: {userData ? userData.role : 'Cargando...'}</p>
+            {authorized && (<p className='UserPage-user-info-email'> {userData ? userData.email : 'Cargando...'}</p>)}
+            {authorized && (<p className='UserPage-user-info-role'>Role: {userData ? userData.role : 'Cargando...'}</p>)}
           </div>
         </div>
 
         <div className="UserPage-Collections">
           <div className='UserPage-Collections-Header'>
-            <h2>Tus colecciones</h2>
-            <button className='UserPage-Collection-Header-Add-Collection-Button' onClick={()=>setIsNewCollectionsPopupOpen(true)}>
+            {authorized?(<h2>Tus colecciones</h2>):(<h2>Colecciones de {userData ? userData.username : 'Cargando...'}</h2>)}
+            {authorized && (<button title='Agregar una colección' className='UserPage-Collection-Header-Add-Collection-Button' onClick={()=>setIsNewCollectionsPopupOpen(true)}>
               <FontAwesomeIcon icon={faCirclePlus} />
-            </button>
+            </button>)}
           </div>
           
           {collections.length > 0 ? (
@@ -166,12 +180,27 @@ const UserPage = () => {
               ))}
             </div>
           ) : (
-            <p>Cargando colección...</p>
+            <div>
+              <br></br>
+              {authorized? <p>Todavía no has creado ninguna colección </p> : <p>Este usuario no tiene colecciones</p>}
+              <br></br>
+            </div>
           )}
         </div>
 
         <div className="UserPage-Resources">
-          <h2>Tus recursos </h2>
+          {/* <div className='UserPage-Collections-Header'>
+            <h2>Tus colecciones</h2>
+            <button className='UserPage-Collection-Header-Add-Collection-Button' onClick={()=>setIsNewCollectionsPopupOpen(true)}>
+              <FontAwesomeIcon icon={faCirclePlus} />
+            </button>
+          </div> */}
+          <div className='UserPage-Resources-Header'>
+            {authorized ? (<h2>Tus recursos</h2>):(<h2>Recursos de {userData ? userData.username : 'Cargando...'}</h2>)}
+            {authorized && (<button title='Subir un recurso nuevo' className='UserPage-Collection-Header-Add-Collection-Button' onClick={()=>navigate('/upload')}>
+              <FontAwesomeIcon icon={faCirclePlus} />
+            </button>)}
+          </div>
           {resources.length > 0 ? (
             <div className='UserPage-Resources-container'>
               {resources.map(resource => (
@@ -183,9 +212,9 @@ const UserPage = () => {
                 </div>
               ))}
             </div>
-          ) : (
-            <p>Cargando recursos...</p>
-          )}
+          ) : 
+            authorized ? <p> Todavía no has subido ningún recurso </p> : <p>Este usuario no tiene recursos</p>
+          }
         </div>
       </div>
 

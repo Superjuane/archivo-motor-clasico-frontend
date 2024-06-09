@@ -101,6 +101,11 @@ function ResourceUploadPageNew() {
 
   const handleSubmit = () => {//POST
 
+    if(localStorage.getItem('auth') === null){
+      setError("Necesitas iniciar sesión para subir un recurso");
+      return;
+    }
+
     if(selectedImage === null){
       setError("Selecciona una imagen primero");
       return;
@@ -310,32 +315,37 @@ return (
       <div className='ResourceUploadPageNew-image-div'>
         { selectedImage ?
           (
-            <div>
+            <div className='ResourceUploadPageNew-image-inside-column-div'>
               <img
                 className="ResourceUploadPageNew-image-preview"
                 src={URL.createObjectURL(selectedImage)}
                 alt="Resource Preview"
               />
               <button
-                    className="UploadImage-button"
+                    className="ResourceUploadPageNew-button"
                     onClick={() => {
                     setSelectedImage(null);
                     setFiles([null]);
-                }}>Remove</button>
+                }}>Quitar archivo</button>
             </div>
           )
           :
-          (<input
-              className="UploadImage-input"
-              type="file"
-              name="myImage"
-              onChange={(event) => {
-                  setSelectedImage(event.target.files[0]);
-                  setFiles([])
-                  getBase64(event.target.files[0]);
-                  
-              }}
-          />)
+          (
+            <label className='ResourceUploadPageNew-button'>
+              <input
+                className="ResourceUploadPageNew-input"
+                type="file"
+                name="myImage"
+                onChange={(event) => {
+                    setSelectedImage(event.target.files[0]);
+                    setFiles([])
+                    getBase64(event.target.files[0]);
+                    
+                }}
+              />
+              Seleccionar recurso
+            </label>
+          )
         }
       </div>
       <div className="ResourceUploadPageNew-form">
@@ -468,7 +478,7 @@ return (
         
         <div className='ResourceUploadPageNew-button-outside-container-column'>
           <div className='ResourceUploadPageNew-button-outside-container-row'>
-            <button id='ResourceUploadPageNew-edit-button' className='ResourceUploadPageNew-button' onClick={handleSubmit}>Guardar recurso</button>
+            <button id='ResourceUploadPageNew-edit-button' className='ResourceUploadPageNew-button' onClick={handleSubmit}>Subir recurso</button>
           </div>
           {dataUploadedSuccessfully && <label>Recurso guardado 👌</label>}
         </div>

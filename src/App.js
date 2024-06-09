@@ -56,17 +56,15 @@ function App() {
       <Route path="/edit/:id" element={<ResourceEditPage />} />
       <Route path="/resources" element={<ResourcesExplorationPage />} />
       <Route path="/collections/:id" element={<CollectionPage />} />
-      <Route path="/uploadimage" element={<UploadImage/>}/>
-      <Route path="/uploadresource" element={<ResourceUploadPageNew/>}/>
+      <Route path="/upload" element={<ResourceUploadPageNew/>}/>
       <Route path="/search" element={<SearchPage/>}/>
       <Route path="/searchimage/:id" element={<SearchByImagePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<UserPage />} />
+      <Route path="/user/:user" element={<UserPage />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="/resetpassword" element={<ResetPassword />} />
       <Route path="*" element={<Home />} />
-      {/* <Route path="/chapter/:chapterNumber" element={<Chapter />} /> */}
-      {/* <Route path="/*" element={<NotFound />} /> */}
     </Routes>
     <Footer></Footer>
   </BrowserRouter>

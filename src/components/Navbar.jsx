@@ -87,11 +87,14 @@ if(loggedIn){
   return (
     <div className="Navbar-outside-container">
 
-      <div className="Navbar-logo">
-        <Link to="/" style={{"paddingTop":"50px"}}>
-          <img src={logo} className="Navbar-logo-image" alt="logo" />
-          {/* LOGO */}
-        </Link>
+      <div className="Navbar-left-row">
+        <div className="Navbar-logo">
+          <Link to="/" style={{"paddingTop":"50px"}}>
+            <img src={logo} className="Navbar-logo-image" alt="logo" />
+          </Link>
+        </div>
+        <a className="Navbar-left-row-link" href="/search"> Buscar recursos </a>
+        <a className="Navbar-left-row-link" href="/upload"> Subir recurso nuevo </a>
       </div>
 
       <div

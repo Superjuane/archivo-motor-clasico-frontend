@@ -14,9 +14,6 @@
     padding-bottom: 10px;
 }
 
-.UploadImage-input[type="file"] {
-    margin-top: 10px;
-}
 
 .UploadImage-input[type="text"],
 .UploadImage-textarea,

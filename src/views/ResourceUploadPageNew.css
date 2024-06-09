@@ -2,6 +2,7 @@
   max-width: 1000px;
   margin: 0 auto;
   padding: 20px;
+  min-height: 100vh;
 }
 
 .ResourceUploadPageNew-error{
@@ -19,6 +20,7 @@
 .ResourceUploadPageNew-content {
   display: flex;
   justify-content: space-between;
+  gap: 2%;
 }
 
 .ResourceUploadPageNew-image-div{
@@ -54,6 +56,14 @@
   outline: 0;
 }
 
+.ResourceUploadPageNew-image-inside-column-div{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2%;
+  height: 100%;
+
+}
 
 .ResourceUploadPageNew-image-preview {
   max-width: 300px;
@@ -65,6 +75,20 @@
 .ResourceUploadPageNew-image-preview:hover {
   transition-delay:0.4s;
   transform: scale(2.5) translateX(50%);
+}
+
+.ResourceUploadPageNew-input[type="file"] {
+  display: none;
+}
+
+.ResourceUploadPageNew-input-label {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
 }
 
 .ResourceUploadPageNew-form {

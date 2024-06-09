@@ -77,39 +77,41 @@ if(problem !== ''){
   return (
     <div>
       {/* <NavBar /> */}
-      <div className={'mainContainer'}>
-        <div className={'titleContainer'}>
+      <div className={'Login-mainContainer'}>
+        <div className={'Login-titleContainer'}>
           <div>Login</div>
         </div>
         <br />
-        <div className={'inputContainer'}>
+        <div className={'Login-inputContainer'}>
           <input
             value={email}
-            placeholder="Enter your username here"
+            type='text'
+            placeholder="Introduce tu usuario"
             onChange={(ev) => setEmail(ev.target.value)}
-            className={'inputBox'}
+            className={'Login-inputBox'}
           />
-          <label className="errorLabel">{problemLabel}</label>
+          <label className="Login-errorLabel">{problemLabel}</label>
         </div>
         <br />
-        <div className={'inputContainer'}>
+        <div className={'Login-inputContainer'}>
           <input
             value={password}
-            placeholder="Enter your password here"
+            placeholder="Introduce tu contraseña"
+            type='password'
             onKeyDown={(e)=>{if(e.key === 'Enter' && !e.shiftKey){onButtonClick()}}}
             onChange={(ev) => setPassword(ev.target.value)}
-            className={'inputBox'}
+            className={'Login-inputBox'}
           />
         </div>
         <br />
-        <div className={'inputContainer'}>
-          <input className={'inputButton'} type="button" onClick={onButtonClick} value={'Log in'} />
-        </div>
-
+          <button className={'Login-inputButton'} type="button" onClick={onButtonClick}>
+            Iniciar sesión
+          </button>
         <br></br>
-          <div className={'inputContainer'}>
-              <input className={'inputButton'} type="button" onClick={()=>navigate('/forgotpassword')} value={'Forgot  password?'} />
-          </div>
+        <br></br>
+          <a className={'Login-forgot-password-link'} type="button" href='/forgotpassword'>
+            ¿Olvidaste tu contraseña?
+          </a>
 
       </div>
     </div>
