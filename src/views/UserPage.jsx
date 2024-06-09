@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import CollectionCard from 'components/CollectionCard'; 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
-import { auth } from 'neo4j-driver-core';
 
 
 const UserPage = () => {
