@@ -18,6 +18,7 @@ function ResourceUploadPageNew() {
   const [files, setFiles] = useState([]);
   const [error, setError] = useState(null);
 
+  const [competitionSuggestions, setCompetitionSuggestions] = useState([]);
   const [magazineIssueNameSuggestions, setMagazineIssueNameSuggestions] = useState([]);
   const [personNameSuggestions, setPersonNameSuggestions] = useState([]);
   const [personNameSuggestionsIndex, setPersonNameSuggestionsIndex] = useState(0);
@@ -98,6 +99,45 @@ function ResourceUploadPageNew() {
       [name]: value
     }));
   };
+
+  const handleCompetitionChange = (e) => {
+    console.log('Competition change')
+    console.log(e)
+    console.log(formData)
+    const value = e.target.value;
+
+    let newProperties = formData.properties;
+    newProperties.Competition = value;
+    setFormData(prevState => ({
+      ...prevState,
+      "properties": newProperties
+    }));
+
+    // if (value.length > 0) {
+      fetch('http://localhost:8090/resources/properties/competitions?competition='+value, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then (response => response.json())
+      .then (data => {
+        setCompetitionSuggestions(data);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+    // }
+  }
+
+  const handleCompetitionSuggestionClick = (suggestion) => {
+    console.log('Suggestion clicked:', suggestion);
+    let newProperties = formData.properties;
+    newProperties.Competition = suggestion;
+    setFormData(prevState => ({
+      ...prevState,
+      "properties": newProperties
+    }));
+    setCompetitionSuggestions([]);
+  }
 
   const handleSubmit = () => {//POST
 
@@ -371,7 +411,33 @@ return (
 
         {activatedProperties.Date ? dateComponent :null}
 
-        {activatedProperties.Competition && competitionComponent}
+        {activatedProperties.Competition && (
+          <div>
+          <div className='ResourceEdit-input-group'>
+            <label>Competición</label>
+            <input
+            type="text"
+            name= "Competition"
+            value={formData.properties.Competition}
+            autoComplete='off'
+            onChange={handleCompetitionChange}
+            onBlur={() => {setTimeout(() => setCompetitionSuggestions([]), 250)}}
+          />
+          </div>
+          {competitionSuggestions.length > 0 && (
+            <ul className="suggestions-list">
+              {competitionSuggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={()=>handleCompetitionSuggestionClick(suggestion)}
+                >
+                  {suggestion}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+        )}
 
         {activatedProperties.MagazineIssue && (
           <div className='ResourceUploadPageNew-MagazineIssue-outer-input-group'>

@@ -61,10 +61,10 @@
   }
   
   .Footer-bottom {
-    background: #000;
+    background: var(--background-black);
     padding: 20px;
     font-size: 13px;
-    padding-bottom: 40px;
+    padding-bottom: 50px;
     text-align: center;
   }
   .Footer-bottom p {

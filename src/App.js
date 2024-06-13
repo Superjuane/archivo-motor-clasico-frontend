@@ -10,7 +10,6 @@ import Home from './views/Home';
 import SingleResourcePage from 'views/SingleResourcePage';
 import ResourceEditPage from 'views/ResourceEditPage';
 import ResourcesExplorationPage from './views/ResourcesExplorationPage';
-import UploadImage from './views/UploadImagePage';
 import SearchPage from './views/SearchPage';
 import SearchByImagePage from './views/SearchByImagePage';
 import Login from './views/Login';
@@ -21,6 +20,7 @@ import UserPage from 'views/UserPage';
 import CollectionPage from 'views/CollectionPage';
 import Footer from 'components/Footer';
 import ResourceUploadPageNew from './views/ResourceUploadPageNew';
+import Register from 'views/Register';
 
 
 function App() {
@@ -60,6 +60,7 @@ function App() {
       <Route path="/search" element={<SearchPage/>}/>
       <Route path="/searchimage/:id" element={<SearchByImagePage />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/profile" element={<UserPage />} />
       <Route path="/user/:user" element={<UserPage />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />

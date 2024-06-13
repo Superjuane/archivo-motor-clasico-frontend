@@ -83,7 +83,7 @@
 .ImageComponent-open-collections-popup-button,
 .ImageComponent-edit-button {
   align-self: center;
-  background-color: #949597;
+  background-color: var(--background-button-color);
   background-image: none;
   background-position: 0 90%;
   background-repeat: repeat no-repeat;
@@ -93,7 +93,7 @@
   border-width: 2px;
   box-shadow: rgba(0, 0, 0, .2) 15px 28px 25px -18px;
   box-sizing: border-box;
-  color: #41403e;
+  color: var(--button-light-background-text);
   cursor: pointer;
   display: inline-block;
   font-family: Neucha, sans-serif;
@@ -112,8 +112,10 @@
   touch-action: manipulation;
 }
 
+.ImageComponent-open-collections-popup-button:hover,
 .ImageComponent-edit-button:hover {
   background-color: var(--button-red);
+  color: var(--button-red-background-text);
   box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
   transform: translate3d(0, 2px, 0);
 }
@@ -223,7 +225,7 @@
 .ImageComponent-collections-popup-element {
   margin: 5px;
   padding: 5px;
-  background-color: var(--backgound-dark-grey);
+  background-color: var(--background-medium-grey);
   width: 100%;
   cursor: pointer;
 }
@@ -540,7 +542,7 @@ body {
 .ImageComponent-comments-list-comment-body button:active {
   cursor: pointer;
   background-color: #ecf0f1;
-  color: #41403e;
+  color: var(--button-light-background-text);
 }
 
 .ImageComponent-comments-list-comment-reply{

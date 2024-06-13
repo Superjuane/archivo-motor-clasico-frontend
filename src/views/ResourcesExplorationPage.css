@@ -1,22 +1,58 @@
-/* .gridContainer {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    grid-template-rows: repeat(auto-fit, 260px);
-    grid-auto-flow: dense;
-    grid-gap: 0.3rem;
-  } */
-  .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Adjust the minmax value as needed */
-    gap: 10px; /* Adjust the gap between items */
+.ResourcesExplorationPage-page{
+    min-height: 100vh;
 }
 
-.grid-item {
-    overflow: hidden;
+.ResourcesExplorationPage-page h1{
+    margin-top: 2%;
+    margin-left: 2%;
 }
 
-.grid-item img {
+.ResourcesExplorationPage-results-outside-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
     width: 100%;
-    height: auto;
-    display: block;
+    margin-bottom: 5%;
+}
+
+.ResourcesExplorationPage-results-body {
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 2%;
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(40vh, 0.2fr));
+    gap: 1%;
+}
+
+.ResourcesExplorationPage-results-body-element {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* min-width: 40vh; */
+    /* border-radius: 10px; */
+    max-height: 50vh;
+    max-width: 50vh;
+}
+
+.ResourcesExplorationPage-results-body-element:hover {
+    background:grey;
+    opacity:0.5;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    filter: alpha(opacity=50);
+    z-index:100;
+}
+
+.ResourcesExplorationPage-results-body-element h2{
+    color: white;
+    font-size: medium;
+    text-align: center;
+    
+}
+
+.ResourcesExplorationPage-results-body-element img{
+    max-width: 100%;
+    max-height: 100%;
 }

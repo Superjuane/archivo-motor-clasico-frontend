@@ -473,30 +473,30 @@ return (
 
         {activatedProperties.Competition && (
           <div>
-              <div className='ResourceEdit-input-group'>
-                <label>Competición</label>
-                <input
-                type="text"
-                name= "Competition"
-                value={formData.properties.Competition}
-                autoComplete='off'
-                onChange={handleCompetitionChange}
-                onBlur={() => {setTimeout(() => setCompetitionSuggestions([]), 250)}}
-              />
-              </div>
-              {competitionSuggestions.length > 0 && (
-                <ul className="suggestions-list">
-                  {competitionSuggestions.map((suggestion, index) => (
-                    <li
-                      key={index}
-                      onClick={()=>handleCompetitionSuggestionClick(suggestion)}
-                    >
-                      {suggestion}
-                    </li>
-                  ))}
-                </ul>
-              )}
+            <div className='ResourceEdit-input-group'>
+              <label>Competición</label>
+              <input
+              type="text"
+              name= "Competition"
+              value={formData.properties.Competition}
+              autoComplete='off'
+              onChange={handleCompetitionChange}
+              onBlur={() => {setTimeout(() => setCompetitionSuggestions([]), 250)}}
+            />
             </div>
+            {competitionSuggestions.length > 0 && (
+              <ul className="suggestions-list">
+                {competitionSuggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={()=>handleCompetitionSuggestionClick(suggestion)}
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         )}
 
         {activatedProperties.MagazineIssue && (

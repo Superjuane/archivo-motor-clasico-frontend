@@ -102,8 +102,8 @@ if(loggedIn){
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <button className="Navbar-dropdown-menu">Dropdown Menu</button>
-          {isDropdownVisible && <DropdownMenu />}
+        {/* <button className="Navbar-dropdown-menu">Dropdown Menu</button>
+          {isDropdownVisible && <DropdownMenu />} */}
       </div>
       <div className="Navbar-log-in-external-div">
         {session}

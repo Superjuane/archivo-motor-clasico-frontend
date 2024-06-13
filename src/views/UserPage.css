@@ -7,7 +7,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     min-height: 100vh;
-    background-color: var(--backgound-dark-grey);
+    background-color: var(--background-medium-grey);
     border-radius: 10px;
     padding-left: 5%;
     padding-right: 1%;
@@ -47,13 +47,13 @@
 
 .UserPage-user-info-email{
     font-size: 24px;
-    color: grey;
+    color: white;
     margin-bottom: 0.4%;
 }
 
 .UserPage-user-info-role{
     font-size: 24px;
-    color: grey;
+    color: white;
 }
 
 .UserPage-Collections {
@@ -64,7 +64,6 @@
     padding-right: 2%;
     margin-top: 2%;
     width: 95%;
-    background-color: var(--backgound-dark-grey);
   }
 
   .UserPage-Collections-Header{
@@ -200,7 +199,7 @@
     padding-right: 2%;
     margin-top: 2%;
     width: 95%;
-    background-color: var(--backgound-dark-grey);
+    /* background-color: var(--background-medium-grey); */
   }
 
   .UserPage-Resources-Header {

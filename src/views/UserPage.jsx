@@ -11,7 +11,7 @@ const UserPage = () => {
   let username = localStorage.getItem('username');
   console.log('User:', user);
   console.log('Username:', username);
-  let authorized = username === user;
+  let authorized = (username === user) || (user === undefined && username !== null);
 
   const inputRef = useRef();
   const navigate = useNavigate();

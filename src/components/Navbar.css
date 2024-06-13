@@ -35,7 +35,7 @@
     background-color: var(--button-red);
     border: none;
     cursor: pointer;
-    color: #fff;
+    color: var(--button-red-background-text);
     font-size: 16px;
 }
 
@@ -83,7 +83,7 @@
 .Navbar-loged-in-dropdown-button {
     background: var( --backgound-dark-grey);
     box-shadow: 0px 10px 30px 0px rgba(82, 63, 105, 0.05);
-    color: #fff;
+    color: var(--button-red-background-text);
     padding: 12px 25px;
     border: none;
     cursor: pointer;
@@ -92,7 +92,7 @@
 
 .Navbar-loged-in-dropdow-button-div button{
     background-color: var(--button-red);
-    color: #fff;
+    color: var(--button-red-background-text);
     border: none;
     padding: 8px 16px;
     border-radius: 4px;

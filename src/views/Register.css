@@ -1,24 +1,40 @@
-.Login-mainContainer {
+.Register-mainContainer {
     flex-direction: column;
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    height: 100vh;
+    min-height: 100vh;
+  }
+
+  .Register-box {
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: fit-content;
+    height: fit-content;
+    padding-left: 3%;
+    padding-right: 3%;
+    padding-top: 2%;
+    padding-bottom: 3%;
+    margin-top: 3%;
+    border-radius: 10px;
+    background-color: var(--background-medium-grey);
   }
   
-  .Login-titleContainer {
+  .Register-titleContainer {
     padding-top: 2%;
     padding-bottom: 2%;
     display: flex;
     flex-direction: column;
-    font-size: 64px;
+    font-size: x-large;
     font-weight: bolder;
     align-items: center;
     justify-content: center;
   }
   
-  .Login-resultContainer,
-  .Login-historyItem {
+  .Register-resultContainer,
+  .Register-historyItem {
     flex-direction: row;
     display: flex;
     width: 400px;
@@ -26,7 +42,7 @@
     justify-content: space-between;
   }
   
-  .Login-historyContainer {
+  .Register-historyContainer {
     flex-direction: column;
     display: flex;
     height: 200px;
@@ -35,7 +51,7 @@
     justify-content: flex-start;
   }
   
-  .Login-buttonContainer {
+  .Register-buttonContainer {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -43,28 +59,31 @@
     height: 260px;
   }
   
-  .Login-inputContainer {
+  .Register-inputContainer {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+    margin-top: 1%;
+    padding: 2%;
   }
   
-  .Login-inputContainer > .Login-errorLabel {
+  .Register-inputContainer > .Register-errorLabel {
     color: red;
-    font-size: x-large;
+    font-size: large;
   }
   
-  .Login-inputBox {
-    height: 48px;
+  .Register-inputBox {
+    height: 24px;
     width: 400px;
-    font-size: large;
     border-radius: 8px;
     border: 1px solid grey;
     padding-left: 8px;
   }
 
-  .Login-inputButton  {
+  .Register-inputButton  {
+    margin-top:4%;
+    width: 400px;
     align-self: center;
     background-color: var(--background-button-color);
     background-image: none;
@@ -95,17 +114,17 @@
     touch-action: manipulation;
   }
   
-  .Login-inputButton :hover {
+  .Register-inputButton :hover {
     background-color: var(--button-red);
     box-shadow: rgba(0, 0, 0, .3) 2px 8px 8px -5px;
     transform: translate3d(0, 2px, 0);
   }
   
-  .Login-inputButton :focus {
+  .Register-inputButton :focus {
     box-shadow: rgba(0, 0, 0, .3) 2px 8px 4px -6px;
   }
 
-  .Login-forgot-password-link {
+  .Register-forgot-password-link {
     color: var(--text-white);
     font-size: medium;
     text-decoration: none;

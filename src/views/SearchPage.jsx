@@ -198,7 +198,7 @@ function SearchPage() {
   return (
     <div className='SearchPage-outside-container'>
     <h1>Búsqueda de recursos</h1>
-    <h1 style={{color: "red"}}> Si en título hay comillas " ", buscar sobre GraphDB para resultados exactos.</h1>
+    {/* <h1 style={{color: "red"}}> Si en título hay comillas " ", buscar sobre GraphDB para resultados exactos.</h1> */}
     <div /*onSubmit={handleSubmit}*/ className='SearchPage-form'>
 
       <div className='SearchPage-form-element-row'>
@@ -246,7 +246,7 @@ function SearchPage() {
         <label className='SearchPage-form-label'>
           Revista:
         </label>
-        <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>handleMagazineNameIsSet(e.target.value)}>
+        <select className='SearchPage-form-input-text' name="revista" onChange={(e)=>handleMagazineNameIsSet(e.target.value)}>
         <option selected value=""> -- selecciona una revista -- </option>
           {magazineNameOptions && magazineNameOptions.map((option, index) => {
             return <option key={"competition-option-"+index} value= {option} > {option} </option>
@@ -258,8 +258,8 @@ function SearchPage() {
         <label className='SearchPage-form-label'>
           Número de revista:
         </label>
-        <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>setMagazineNumber(e.target.value)}>
-        <option selected value=""> -- selecciona una persona -- </option>
+        <select className='SearchPage-form-input-text' name="numero de revista" onChange={(e)=>setMagazineNumber(e.target.value)}>
+        <option selected value=""> -- selecciona un número de esta revista -- </option>
           {magazineNumberOptions && magazineNumberOptions.map((option, index) => {
             return <option key={"competition-option-"+index} value= {option} > {option} </option>
           })}
@@ -273,7 +273,7 @@ function SearchPage() {
         <label className='SearchPage-form-label'>
           Persona:
         </label>
-        <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>handleNewPersonAdded(e.target.value, 0)}>
+        <select className='SearchPage-form-input-text' name="persona" onChange={(e)=>handleNewPersonAdded(e.target.value, 0)}>
         <option selected value=""> -- selecciona una persona -- </option>
           {personsOptions && personsOptions.map((option, index) => {
             return <option key={"competition-option-"+index} value= {option} > {option} </option>
@@ -299,7 +299,7 @@ function SearchPage() {
             <label className='SearchPage-form-label'>
             Persona:
             </label>
-            <select className='SearchPage-form-input-text' name="competition" onChange={(e)=>handleNewPersonAdded(e.target.value, index+1)}>
+            <select className='SearchPage-form-input-text' name="persona" onChange={(e)=>handleNewPersonAdded(e.target.value, index+1)}>
             <option selected value=""> -- selecciona una persona -- </option>
               {personsOptions && personsOptions.map((option, index) => {
                 return <option key={"competition-option-"+index} value= {option} > {option} </option>
@@ -308,7 +308,7 @@ function SearchPage() {
           </div>
       ))}
 
-      <button onClick={()=>handleSubmit()}>Submit</button>
+      <button onClick={()=>handleSubmit()}>Buscar</button>
     </div>
       <div className='SearchPage-results-outside-container'>
         {results && results.length > 0 && (<div className='SearchPage-results-body'>

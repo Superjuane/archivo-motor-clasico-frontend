@@ -38,6 +38,9 @@ const Login = (props) => {
                 if(error.code === 401){
                   error.data.then((data) => {
                       setProblem(data.problem);
+                      setTimeout(() => {
+                          setProblem('');
+                      }, 5000);
                   });
                 }
             });
@@ -68,9 +71,9 @@ const test = () => {
 let problemLabel;
 if(problem !== ''){
   if(problem === 'unregistered'){
-    problemLabel = <label className="errorLabel">⚠️ This user is not registered ⚠️</label>;
+    problemLabel = <label className="errorLabel">⚠️ Este usuario no está registrado ⚠️</label>;
   } else if(problem === 'wrongPassword'){
-    problemLabel = <label className="errorLabel">⚠️ Wrong password ⚠️</label>;
+    problemLabel = <label className="errorLabel">⚠️ Contraseña incorrecta ⚠️</label>;
   }
 }
 
@@ -87,7 +90,7 @@ if(problem !== ''){
             value={email}
             type='text'
             placeholder="Introduce tu usuario"
-            onChange={(ev) => setEmail(ev.target.value)}
+            onChange={(ev) => {setProblem(''); setEmail(ev.target.value);}}
             className={'Login-inputBox'}
           />
           <label className="Login-errorLabel">{problemLabel}</label>
@@ -99,13 +102,18 @@ if(problem !== ''){
             placeholder="Introduce tu contraseña"
             type='password'
             onKeyDown={(e)=>{if(e.key === 'Enter' && !e.shiftKey){onButtonClick()}}}
-            onChange={(ev) => setPassword(ev.target.value)}
+            onChange={(ev) => {setProblem(''); setPassword(ev.target.value)}}
             className={'Login-inputBox'}
           />
         </div>
         <br />
           <button className={'Login-inputButton'} type="button" onClick={onButtonClick}>
             Iniciar sesión
+          </button>
+        <br></br>
+        <br></br>
+        <button className={'Login-inputButton'} type="button" onClick={()=>navigate('/register')}>
+            Crear una cuenta
           </button>
         <br></br>
         <br></br>
