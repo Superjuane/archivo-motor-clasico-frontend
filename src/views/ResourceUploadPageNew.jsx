@@ -13,6 +13,8 @@ import { faMinusCircle, faPlusSquare } from '@fortawesome/free-solid-svg-icons'
 function ResourceUploadPageNew() {
   const navigate = useNavigate();
 
+  const [counter, setCounter] = useState(0);
+
   const [dataUploadedSuccessfully, setDataUploadedSuccessfully] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [files, setFiles] = useState([]);
@@ -38,52 +40,53 @@ function ResourceUploadPageNew() {
 
   const setExtractedDate = (date) => {
 
-    console.log('Date extracted:', date);
+    // console.log('Date extracted:', date);
    
-      let newProperties = formData.properties;
-      newProperties.Date = date;
-      setFormData(prevState => ({
-        ...prevState,
-        "properties": newProperties
-      }));
+    //   let newProperties = formData.properties;
+    //   newProperties.Date = date;
+    //   setFormData(prevState => ({
+    //     ...prevState,
+    //     "properties": newProperties
+    //   }));
 
-      setActivatedProperties((prevProperties) => ({
-        ...prevProperties,
-        Date: true,
-      }));
+    //   setActivatedProperties((prevProperties) => ({
+    //     ...prevProperties,
+    //     Date: true,
+    //   }));
 
   }
 
   function checkIfFilenameContainsDate(filename) {
-    const dateRegex = /(\d{4}([.\-/ ])\d{2}\2\d{2}|\d{2}([.\-/ ])\d{2}\3\d{4})/;
-    const dateMatch = filename.match(dateRegex);
-    if (dateMatch) {
-      console.log('Date found from title');
-      let date = dateMatch[0];
-      let day = parseInt(date.split(/[.\-/ ]/)[0]);
-      let month = parseInt(date.split(/[.\-/ ]/)[1]);
-      let year = parseInt(date.split(/[.\-/ ]/)[2]);
-      if(day.toString().length === 4) { //year <-> day
-        const temp = day;
-        day = year;
-        year = temp;
-      }
-      if(month > 12){ //day <-> month
-        const temp = month;
-        month = day;
-        day = temp;
-      }
+    // const dateRegex = /(\d{4}([.\-/ ])\d{2}\2\d{2}|\d{2}([.\-/ ])\d{2}\3\d{4})/;
+    // const dateMatch = filename.match(dateRegex);
+    // if (dateMatch) {
+    //   console.log('Date found from title');
+    //   let date = dateMatch[0];
+    //   let day = parseInt(date.split(/[.\-/ ]/)[0]);
+    //   let month = parseInt(date.split(/[.\-/ ]/)[1]);
+    //   let year = parseInt(date.split(/[.\-/ ]/)[2]);
+    //   if(day.toString().length === 4) { //year <-> day
+    //     const temp = day;
+    //     day = year;
+    //     year = temp;
+    //   }
+    //   if(month > 12){ //day <-> month
+    //     const temp = month;
+    //     month = day;
+    //     day = temp;
+    //   }
 
-      if(day < 1 || day > 31 || month < 1 || month > 12 || year < 0 || year > 9999){
-        console.log('Invalid date found from title');
-        return;
-      }
+    //   if(day < 1 || day > 31 || month < 1 || month > 12 || year < 0 || year > 9999){
+    //     console.log('Invalid date found from title');
+    //     return;
+    //   }
 
-      if(month < 10) month = '0'+month;
+    //   if(month < 10) month = '0'+month;
+    //   if(day < 10) day = '0'+day;
 
-      setExtractedDate(year+'-'+month+'-'+day);
+    //   setExtractedDate(year+'-'+month+'-'+day);
 
-    }
+    // }
   }
 
   function getBase64(file) {
@@ -93,7 +96,7 @@ function ResourceUploadPageNew() {
         setFiles({"image":reader.result, "text":file.name});
         setFormData(prevState => ({
           ...prevState,
-          "title": (file.name).replace('_', ' ').replace('-',' ').replace('.jpg', '').replace('.jpeg', '').replace('.png', '').replace('.gif', '').replace('.webp', '').replace('.bmp', '').replace('.tiff', ''),
+          "title": (file.name).replaceAll('_', ' ').replaceAll('-',' ').replace('.jpg', '').replace('.jpeg', '').replace('.png', '').replace('.gif', '').replace('.webp', '').replace('.bmp', '').replace('.tiff', '').replace(".JPG", '').replace(".JPEG", '').replace(".PNG", '').replace(".GIF", '').replace(".WEBP", '').replace(".BMP", '').replace(".TIFF", '')
         }));
 
         checkIfFilenameContainsDate(file.name);
@@ -237,7 +240,6 @@ function ResourceUploadPageNew() {
       console.error('Error updating data:', error);
       if(error.code === 401){
         setError("Necesitas iniciar sesión para subir un recurso");
-        return;
       }
       if(error.code === 409){
         alert("Este recurso recurso ya existe en la base de datos. ¿Deseas verlo?");
@@ -245,12 +247,9 @@ function ResourceUploadPageNew() {
         error.message.then((data) => {
           console.log(data);
           window.open('/resources/'+data.id, '_blank');
-      })
-        return;
+        })
       }
     })
-    .finally(() => {
-    });
   };
 
 
@@ -369,7 +368,7 @@ function ResourceUploadPageNew() {
 
   //PERSONS
   const getPersonValue = (person, index) => {
-
+    console.log('Person:', person);
     if(!formData.properties.Persons[index]){
       formData.properties.Persons[index].Person.name ='';
     }
@@ -411,6 +410,8 @@ function ResourceUploadPageNew() {
     setPersonNameSuggestionsIndex(-1);
   }
 
+
+  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!rendering!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 return (
 <div>
   <div className="ResourceUploadPageNew-container">
@@ -458,7 +459,7 @@ return (
           )
         }
       </div>
-      <form autoComplete='off' className="ResourceUploadPageNew-form">
+      <div className="ResourceUploadPageNew-form">
         <div className="ResourceUploadPageNew-input-group">
           <label>Título:</label>
           <input
@@ -559,12 +560,15 @@ return (
             <div className='ResourceUploadPageNew-Persons-header-row'>
               <h2> Personas </h2>
               <button className='ResourceUploadPageNew-Persons-header-row-button' onClick={()=>{
+                console.log('Adding person');
                 let newProperties = formData.properties;
-                newProperties.Persons.push ({"Person":{"name": '', "alias": ''}});
+                if(!newProperties.Persons) newProperties.Persons = [];
+                newProperties.Persons.push ({"Person":{"name": ''}});
                 setFormData(prevState => ({
                   ...prevState,
                   "properties": newProperties
                 }));
+                console.log("new person button clicked");
               }}>
                 <FontAwesomeIcon icon={faPlusSquare} />
               </button>
@@ -581,9 +585,11 @@ return (
                       ...prevState,
                       "properties": newProperties
                     }));
+                    setCounter(counter+1);
                   }}>
                     <FontAwesomeIcon icon={faMinusCircle} />
                   </button>
+                  {console.log(person)}
                   <div className='ResourceUploadPageNew-Persons-element-div'>
                     <label>Nombre:</label>
                     <input
@@ -618,7 +624,7 @@ return (
           </div>
           {dataUploadedSuccessfully && <label>Recurso guardado 👌</label>}
         </div>
-      </form>
+      </div>
     </div>
   </div>
   {showNewPropertyPopup && (
