@@ -1,0 +1,33 @@
+.Privacy-container {
+    padding: 20px;
+    min-height: 150vh;
+    width: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: start;
+
+}
+
+.Privacy-Header {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.Privacy-Point {
+    font-size: 16px;
+    margin-bottom: 5px;
+    text-align: justify;
+}
+
+.Privacy-Point li {
+    list-style-type: disc;
+    margin-left: 20px;
+}
+
+.PrivacyPoint p li:hover {
+    cursor: default;
+    background-color: var(--backgound-light-grey);
+    color:red;
+}

@@ -60,7 +60,7 @@ if(loggedIn){
             </button>
           </div>
           <div className="Navbar-loged-in-dropdown-button-div" >
-            <button className="Navbar-loged-in-dropdown-button" onClick={() => navigate("/uploadresource")}>
+            <button className="Navbar-loged-in-dropdown-button" onClick={() => navigate("/upload")}>
               Nuevo recurso
             </button>
           </div>
@@ -93,6 +93,7 @@ if(loggedIn){
             <img src={logo} className="Navbar-logo-image" alt="logo" />
           </Link>
         </div>
+        <a className="Navbar-left-row-link" href="/resources"> Explorar recursos </a>
         <a className="Navbar-left-row-link" href="/search"> Buscar recursos </a>
         <a className="Navbar-left-row-link" href="/upload"> Subir recurso nuevo </a>
       </div>

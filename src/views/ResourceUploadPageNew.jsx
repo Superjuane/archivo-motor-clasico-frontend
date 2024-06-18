@@ -36,12 +36,68 @@ function ResourceUploadPageNew() {
     properties: {},
   });
 
+  const setExtractedDate = (date) => {
+
+    console.log('Date extracted:', date);
+   
+      let newProperties = formData.properties;
+      newProperties.Date = date;
+      setFormData(prevState => ({
+        ...prevState,
+        "properties": newProperties
+      }));
+
+      setActivatedProperties((prevProperties) => ({
+        ...prevProperties,
+        Date: true,
+      }));
+
+  }
+
+  function checkIfFilenameContainsDate(filename) {
+    const dateRegex = /(\d{4}([.\-/ ])\d{2}\2\d{2}|\d{2}([.\-/ ])\d{2}\3\d{4})/;
+    const dateMatch = filename.match(dateRegex);
+    if (dateMatch) {
+      console.log('Date found from title');
+      let date = dateMatch[0];
+      let day = parseInt(date.split(/[.\-/ ]/)[0]);
+      let month = parseInt(date.split(/[.\-/ ]/)[1]);
+      let year = parseInt(date.split(/[.\-/ ]/)[2]);
+      if(day.toString().length === 4) { //year <-> day
+        const temp = day;
+        day = year;
+        year = temp;
+      }
+      if(month > 12){ //day <-> month
+        const temp = month;
+        month = day;
+        day = temp;
+      }
+
+      if(day < 1 || day > 31 || month < 1 || month > 12 || year < 0 || year > 9999){
+        console.log('Invalid date found from title');
+        return;
+      }
+
+      if(month < 10) month = '0'+month;
+
+      setExtractedDate(year+'-'+month+'-'+day);
+
+    }
+  }
+
   function getBase64(file) {
-    //https://stackoverflow.com/questions/36280818/how-to-convert-file-to-base64-in-javascript
     var reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = function () {
         setFiles({"image":reader.result, "text":file.name});
+        setFormData(prevState => ({
+          ...prevState,
+          "title": (file.name).replace('_', ' ').replace('-',' ').replace('.jpg', '').replace('.jpeg', '').replace('.png', '').replace('.gif', '').replace('.webp', '').replace('.bmp', '').replace('.tiff', ''),
+        }));
+
+        checkIfFilenameContainsDate(file.name);
+
     };
     reader.onerror = function (error) {
         setFiles('Error: ' + error);
@@ -170,14 +226,29 @@ function ResourceUploadPageNew() {
       body: JSON.stringify(formatFormData(formData))
     })
     .then(response => {
-      if(!response.ok) throw response;
+      if(!response.ok) throw {code: response.status, message: response.json()};
       return response.json()
     })
     .then(data => {
       console.log('Data updated successfully:', data);
       navigate('/resources/'+data.id);
     })
-    .catch(error => console.error('Error updating data:', error))
+    .catch(error => {
+      console.error('Error updating data:', error);
+      if(error.code === 401){
+        setError("Necesitas iniciar sesión para subir un recurso");
+        return;
+      }
+      if(error.code === 409){
+        alert("Este recurso recurso ya existe en la base de datos. ¿Deseas verlo?");
+        console.log(error);
+        error.message.then((data) => {
+          console.log(data);
+          window.open('/resources/'+data.id, '_blank');
+      })
+        return;
+      }
+    })
     .finally(() => {
     });
   };
@@ -256,7 +327,6 @@ function ResourceUploadPageNew() {
   }
 
   let dateComponent = propertyComponent("Date", "date");
-  let competitionComponent = propertyComponent("Competition", "name");
 
 
   //MAGAZINE ISSUES
@@ -388,7 +458,7 @@ return (
           )
         }
       </div>
-      <div className="ResourceUploadPageNew-form">
+      <form autoComplete='off' className="ResourceUploadPageNew-form">
         <div className="ResourceUploadPageNew-input-group">
           <label>Título:</label>
           <input
@@ -419,7 +489,7 @@ return (
             type="text"
             name= "Competition"
             value={formData.properties.Competition}
-            autoComplete='off'
+            autoComplete="new-password"
             onChange={handleCompetitionChange}
             onBlur={() => {setTimeout(() => setCompetitionSuggestions([]), 250)}}
           />
@@ -548,7 +618,7 @@ return (
           </div>
           {dataUploadedSuccessfully && <label>Recurso guardado 👌</label>}
         </div>
-      </div>
+      </form>
     </div>
   </div>
   {showNewPropertyPopup && (

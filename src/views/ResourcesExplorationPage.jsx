@@ -98,8 +98,8 @@ return (
         <div className='ResourcesExplorationPage-results-outside-container'>
         {resources && resources.length > 0 && (<div className='ResourcesExplorationPage-results-body'>
           {resources.map((resource) => (
-            <a className='ResourcesExplorationPage-results-body-element' key={resource.id} href={'/resources/'+resource.id}>
-              <h2>{resource.text}</h2>
+            <a className='ResourcesExplorationPage-results-body-element' title={resource.title} key={resource.id} href={'/resources/'+resource.id}>
+              {/* <h2>{resource.text}</h2> */}
               <img src={"data:image/jpg;base64,"+resource.image} alt={resource.title} />
             </a>
           ))}

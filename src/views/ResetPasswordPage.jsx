@@ -16,7 +16,19 @@ function ResetPassword() {
 
   const savePass = () => {
       if (password !== confirmPassword) {
-          setErrorMessage('Passwords do not match');
+          setErrorMessage('Las contraseñas no coinciden');
+          setTimeout(() => {
+              setErrorMessage('');
+          }, 3000);
+          return;
+      }
+
+      if(password.length < 8){
+          setErrorMessage('La contraseña debe tener al menos 8 caracteres');
+          setTimeout(() => {
+              setErrorMessage('');
+          }
+          , 3000);
           return;
       }
 
@@ -31,7 +43,7 @@ function ResetPassword() {
       .then((response) => {
         console.log(response);
         if (response.status === 200) {
-          navigate("/home")
+          navigate("/login")
         } else {
           throw new Error('Error: ' + response.status);
         }

@@ -306,6 +306,8 @@ const RecursiveComment = (comment) => {
                 {isReplyActive && (
                     <div className="ImageComponent-comments-list-comment-reply">
                         <textarea
+                            maxLength={240}
+                            style={{"height":"40px"}}
                             className="ImageComponent-comments-list-comment-reply-textarea"
                             autoFocus
                             onKeyDown={(e)=>{if(e.key === 'Enter' && !e.shiftKey){handleSubmit()}}}

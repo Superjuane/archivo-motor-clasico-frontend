@@ -23,11 +23,11 @@ button {
     text-decoration: none;
 }  
   
-  li:hover {
+  /* li:hover {
     background: gray;
     cursor: pointer;
     color: #fff;
-  }
+  } */
   
   .dropdown-menu {
     position: absolute;

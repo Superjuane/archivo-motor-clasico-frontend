@@ -21,6 +21,8 @@ import CollectionPage from 'views/CollectionPage';
 import Footer from 'components/Footer';
 import ResourceUploadPageNew from './views/ResourceUploadPageNew';
 import Register from 'views/Register';
+import Privacy from 'views/Privacy';
+import Contact from 'views/Contact';
 
 
 function App() {
@@ -65,6 +67,8 @@ function App() {
       <Route path="/user/:user" element={<UserPage />} />
       <Route path="/forgotpassword" element={<ForgotPassword />} />
       <Route path="/resetpassword" element={<ResetPassword />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/contact" element={<Contact />} />
       <Route path="*" element={<Home />} />
     </Routes>
     <Footer></Footer>
